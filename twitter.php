@@ -88,8 +88,8 @@ function isError($jsonObj) {
 }
 
 $to_search = '';
-if(isset($_GET[$search_term])) {
-	$to_search = $_GET[$search_term];
+if(isset($_POST[$search_term])) {
+	$to_search = $_POST[$search_term];
 }
 $search_field = '?q='.urlencode('"'.$to_search.'"');
 
@@ -104,9 +104,9 @@ try {
 
     $result = getTweetsFromJson($twitterResults);
     $cleanedResult = cleanTweetArray($result, $to_search);
-    return json_encode(array('error' => NULL, 'result'=>$cleanedResult));
+    echo json_encode(array('error' => NULL, 'result'=>$cleanedResult));
 } catch (Exception $ex) {
-    return json_encode(array('error' => $ex->getMessage()));
+    echo json_encode(array('error' => $ex->getMessage()));
 }
 
 ?>
