@@ -6,6 +6,10 @@
     left: 35px;
 }
 
+.non {
+	display: none;
+}
+
 body {
     display: flex;
     min-height: 100vh;
