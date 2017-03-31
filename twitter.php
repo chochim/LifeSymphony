@@ -75,37 +75,38 @@ function isJson($string) {
 }
 
 function getTweetsFromJson($jsonObj) {
-    $tweets = array();
-    echo '<pre>';
-    echo $jsonObj;
-	$userStatus = json_decode($jsonObj['statuses']);
-    echo $userStatus;
+    $tweets = array();    
+	$userStatus = $jsonObj['statuses'];    
     foreach($userStatus as $status) {
         $tweets[$status['user']['screen_name']] = $status['text'];
     }
     return $tweets;
 }
 
+function isError($jsonObj) {
+    return $jsonObj["errors"][0]["message"] != "";
+}
+
 $to_search = '';
 if(isset($_GET[$search_term])) {
-	$to_search = '"'.$_GET[$search_term].'"';
+	$to_search = $_GET[$search_term];
 }
-$search_field = '?q='.urlencode($to_search);
+$search_field = '?q='.urlencode('"'.$to_search.'"');
 
-//$getfield = '?screen_name='.$twitter_handle.'&count=10';
 $requestMethod = 'GET';
 
-$twitter = new TwitterAPIExchange($settings);
-/*echo '<pre>';
-echo $search_field.'<br />';*/
-$twitterResults =  $twitter->setGetfield($search_field)
-                        ->buildOauth($search_url, $requestMethod)
-                        ->performRequest();
-echo '<pre>';
-$result = getTweetsFromJson($twitterResults);
-$result = cleanTweetArray($result, "Trump is");
-foreach($result as $user=>$tweet) {    
-    echo $user.'=>'.$tweet.'<br />';    
+try {
+    $twitter = new TwitterAPIExchange($settings);
+    $twitterResults =  json_decode($twitter->setGetfield($search_field)
+                                ->buildOauth($search_url, $requestMethod)
+                                ->performRequest(), true);
+
+
+    $result = getTweetsFromJson($twitterResults);
+    $cleanedResult = cleanTweetArray($result, $to_search);
+    return json_encode(array('error' => NULL, 'result'=>$cleanedResult));
+} catch (Exception $ex) {
+    return json_encode(array('error' => $ex->getMessage()));
 }
 
 ?>
