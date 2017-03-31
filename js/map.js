@@ -48,8 +48,8 @@ function applyColor(toColor, duration) {
 	jQuery(from).animate(to, {
 		duration: duration/2,
 		easing: easing,
-		step: function(now, fx) {
-			map.updateChoropleth({USA: now}, {reset: true});
+		step: function() {
+			map.updateChoropleth({USA: this.color}, {reset: true});
 		}
 	});
 	from = {color: toColor};
@@ -57,8 +57,8 @@ function applyColor(toColor, duration) {
 	jQuery(from).animate(to, {
 		duration: duration/2,
 		easing: easing,
-		step: function(now, fx) {
-			map.updateChoropleth({USA: now}, {reset: true});
+		step: function() {
+			map.updateChoropleth({USA: this.color}, {reset: true});
 		}
 	});
 }
@@ -86,16 +86,26 @@ function applyBirth(duration) {
 setInterval(function() {
 	map.updateChoropleth({USA: birthColor}, {reset: true});
 	//fadeToColor(birthColor,defaultColor);
-	//easeToColor(birthColor, defaultColor, 600)
-	applyDeath(600);
-}, 8000);//birth//8s*/
+	easeToColor(birthColor, defaultColor, 600)
+	//applyDeath(600);
+}, 8000);//birth//
 
 setInterval(function() {
 	map.updateChoropleth({USA: deathColor}, {reset: true});
 	//fadeToColor(deathColor, defaultColor);
-	//easeToColor(deathColor, defaultColor, 600);
-	applyDeath(600);
+	easeToColor(deathColor, defaultColor, 600);
+	//applyDeath(600);
 
 }, 11000);//death//11s
+/*
+var statsBirthArray = {USA: 8000, IND: 1760};
+
+for(var country in statsBirthArray) {	
+	setInterval(function(){
+		console.log('called='+country);
+		map.updateChoropleth({country: birthColor}, {reset: true});
+	}, statsBirthArray[country]);	
+}*/
+
 
 //
