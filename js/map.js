@@ -1,3 +1,8 @@
+var TIMEOUT = 700;
+var birthColor = 'blue';
+var deathColor = 'red';
+var defaultColor = 'green';
+
 var map = new Datamap({
 	element: document.getElementById('map'),	
 	geographyConfig: {
@@ -6,22 +11,17 @@ var map = new Datamap({
             hideAntarctica: false
         },    
     fills: {
-      defaultFill: 'green'
+      defaultFill: defaultColor
     },
     responsive: true,
 });
 
-var TIMEOUT = 700;
-var birthColor = 'blue';
-var deathColor = 'red';
-var defaultColor = 'green';
-
 var data = {
-	'USA': {
+	"USA": {
 		'birth': 8000,
 		'death': 11000
 	},
-	'IND': {
+	"IND": {
 		'birth': 2000,
 		'death': 6000
 	}
@@ -31,15 +31,11 @@ var timeouts = [];
 var j=0;
 
 function backToOriginalColor(countryCode) {	
-	map.updateChoropleth({countryCode: 'black'}, {reset: true});
-}
-
-function countryCodeToString(countryCode) {
-	return countryCode;
+	map.updateChoropleth({countryCode: defaultColor});
 }
 
 function applyDeath(countryCode, duration) {		
-	map.updateChoropleth({countryCode: deathColor}, {reset: true});
+	map.updateChoropleth({countryCode: deathColor});
 	console.log(countryCode+'--> death');	
 	timeouts[j] = setTimeout(function(){
 			backToOriginalColor(countryCode);
@@ -48,7 +44,7 @@ function applyDeath(countryCode, duration) {
 }
 
 function applyBirth(countryCode, duration) {	
-	map.updateChoropleth({countryCode: birthColor}, {reset: true});
+	map.updateChoropleth({countryCode: birthColor});
 	console.log(countryCode+'--> birth');
 	timeouts[j] = setTimeout(function(){
 			backToOriginalColor(countryCode);
