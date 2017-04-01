@@ -1,7 +1,7 @@
 var TIMEOUT = 700;
-var birthColor = 'blue';
-var deathColor = 'red';
-var defaultColor = 'green';
+var BIRTH_COLOR = 'blue';
+var DEATH_COLOR = 'red';
+var DEFAULT_COLOR = 'green';
 
 var map = new Datamap({
 	element: document.getElementById('map'),	
@@ -11,17 +11,17 @@ var map = new Datamap({
             hideAntarctica: false
         },    
     fills: {
-      defaultFill: defaultColor
+      defaultFill: DEFAULT_COLOR
     },
     responsive: true,
 });
 
 var data = {
-	"USA": {
+	USA: {
 		'birth': 8000,
 		'death': 11000
 	},
-	"IND": {
+	IND: {
 		'birth': 2000,
 		'death': 6000
 	}
@@ -31,21 +31,25 @@ var timeouts = [];
 var j=0;
 
 function backToOriginalColor(countryCode) {	
-	map.updateChoropleth({countryCode: defaultColor});
+	var obj = {};
+	obj[countryCode] = DEFAULT_COLOR;
+	map.updateChoropleth(obj);
 }
 
-function applyDeath(countryCode, duration) {		
-	map.updateChoropleth({countryCode: deathColor});
-	console.log(countryCode+'--> death');	
+function applyDeath(countryCode) {		
+	var obj = {};
+	obj[countryCode] = DEATH_COLOR;
+	map.updateChoropleth(obj);	
 	timeouts[j] = setTimeout(function(){
 			backToOriginalColor(countryCode);
 		}, TIMEOUT);	
 	++j;
 }
 
-function applyBirth(countryCode, duration) {	
-	map.updateChoropleth({countryCode: birthColor});
-	console.log(countryCode+'--> birth');
+function applyBirth(countryCode) {	
+	var obj = {};
+	obj[countryCode] = BIRTH_COLOR;
+	map.updateChoropleth(obj);	
 	timeouts[j] = setTimeout(function(){
 			backToOriginalColor(countryCode);
 		}, TIMEOUT);	
@@ -60,10 +64,10 @@ $.each(data, function(countryCode, birthDeathObj){
 	var deathRate = birthDeathObj['death'];
 	var birthRate = birthDeathObj['birth'];
 	birthIntervals[i] = setInterval(function(){		
-		applyBirth(countryCode, TIMEOUT);
+		applyBirth(countryCode);
 	}, birthRate);
 	deathIntervals[i] = setInterval(function(){		
-		applyDeath(countryCode, TIMEOUT);
+		applyDeath(countryCode);
 	}, deathRate);
 	++i;
 });
