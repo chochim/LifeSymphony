@@ -16,17 +16,6 @@ var map = new Datamap({
     responsive: true,
 });
 
-var data = {
-	USA: {
-		'birth': 8000,
-		'death': 11000
-	},
-	IND: {
-		'birth': 2000,
-		'death': 6000
-	}
-}
-
 var timeouts = [];
 var j=0;
 
