@@ -1,3 +1,9 @@
+var timer = new Timer();
+timer.start();
+timer.addEventListener('secondsUpdated', function (e) {
+    $('#basicUsage').html(timer.getTimeValues().toString());
+});
+
 var TIMEOUT = 700;
 var BIRTH_COLOR = 'blue';
 var DEATH_COLOR = 'red';
@@ -13,7 +19,7 @@ var map = new Datamap({
     fills: {
       defaultFill: DEFAULT_COLOR
     },
-    responsive: true,
+    responsive: false,
 });
 
 var timeouts = [];
