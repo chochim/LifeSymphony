@@ -1,111 +1,73 @@
-/*var map;
-function initMap() {
-	map = new google.maps.Map(document.getElementById('map'), {
-	 	center: new google.maps.LatLng(-34.397, 150.644),
-	    zoom: 2,
-	    minZoom: 1
-	});
-}*/
 var map = new Datamap({
-	element: document.getElementById('map'),
-	//projection: 'mercator'
+	element: document.getElementById('map'),	
 	geographyConfig: {
-            highlightOnHover: false,
-            popupOnHover: false,
+            highlightOnHover: true,
+            popupOnHover: true,
             hideAntarctica: false
         },    
     fills: {
-      defaultFill: 'green' //the keys in this object map to the "fillKey" of [data] or [bubbles]
+      defaultFill: 'green'
     },
+    responsive: true,
 });
 
-function fadeToColor(fromColor, toColor) {
-	var interpolate = d3.interpolateRgb(fromColor, toColor);
-	var i = 0;
-
-	function interpolateColor () {
-   		setTimeout(function () {    
-   			//console.log(interpolate(i/200.0));
-      		map.updateChoropleth({USA: interpolate(i/100.0)}, {reset: true});
-      		i++;                     
-      		if (i <= 100) {            
-         		interpolateColor();             
-      		}                        
-   		}, 10)
-	}
-
-	interpolateColor();
-}
-
+var TIMEOUT = 700;
 var birthColor = 'blue';
 var deathColor = 'red';
 var defaultColor = 'green';
 
-function applyColor(toColor, duration) {
-	var easing = 'easeInOutCubic';
-	var from = {color: defaultColor};
-	var to = {color: toColor};
-	jQuery(from).animate(to, {
-		duration: duration/2,
-		easing: easing,
-		step: function() {
-			map.updateChoropleth({USA: this.color}, {reset: true});
-		}
-	});
-	from = {color: toColor};
-	to = {color: defaultColor};
-	jQuery(from).animate(to, {
-		duration: duration/2,
-		easing: easing,
-		step: function() {
-			map.updateChoropleth({USA: this.color}, {reset: true});
-		}
-	});
+var data = {
+	'USA': {
+		'birth': 8000,
+		'death': 11000
+	},
+	'IND': {
+		'birth': 2000,
+		'death': 6000
+	}
 }
 
-function easeToColor(fromColor, toColor, duration) {	
-	var from = {color: fromColor};
-	var to = {color: toColor};
- 
-	jQuery(from).animate(to, {
-    	duration: duration,
-    	step: function() {        	
-        	map.updateChoropleth({USA: this.color}, {reset: true});
-    	}
-	});
+var timeouts = [];
+var j=0;
+
+function backToOriginalColor(countryCode) {	
+	map.updateChoropleth({countryCode: 'black'}, {reset: true});
 }
 
-function applyDeath(duration) {
-	applyColor(deathColor, duration);
+function countryCodeToString(countryCode) {
+	return countryCode;
 }
 
-function applyBirth(duration) {
-	applyColor(birthColor, duration);
+function applyDeath(countryCode, duration) {		
+	map.updateChoropleth({countryCode: deathColor}, {reset: true});
+	console.log(countryCode+'--> death');	
+	timeouts[j] = setTimeout(function(){
+			backToOriginalColor(countryCode);
+		}, TIMEOUT);	
+	++j;
 }
 
-setInterval(function() {
-	map.updateChoropleth({USA: birthColor}, {reset: true});
-	//fadeToColor(birthColor,defaultColor);
-	easeToColor(birthColor, defaultColor, 600)
-	//applyDeath(600);
-}, 8000);//birth//
+function applyBirth(countryCode, duration) {	
+	map.updateChoropleth({countryCode: birthColor}, {reset: true});
+	console.log(countryCode+'--> birth');
+	timeouts[j] = setTimeout(function(){
+			backToOriginalColor(countryCode);
+		}, TIMEOUT);	
+	++j;
+}
 
-setInterval(function() {
-	map.updateChoropleth({USA: deathColor}, {reset: true});
-	//fadeToColor(deathColor, defaultColor);
-	easeToColor(deathColor, defaultColor, 600);
-	//applyDeath(600);
+var birthIntervals = [];
+var deathIntervals = [];
+var i=0;
 
-}, 11000);//death//11s
-/*
-var statsBirthArray = {USA: 8000, IND: 1760};
-
-for(var country in statsBirthArray) {	
-	setInterval(function(){
-		console.log('called='+country);
-		map.updateChoropleth({country: birthColor}, {reset: true});
-	}, statsBirthArray[country]);	
-}*/
-
-
-//
+$.each(data, function(countryCode, birthDeathObj){
+	var deathRate = birthDeathObj['death'];
+	var birthRate = birthDeathObj['birth'];
+	birthIntervals[i] = setInterval(function(){		
+		applyBirth(countryCode, TIMEOUT);
+	}, birthRate);
+	deathIntervals[i] = setInterval(function(){		
+		applyDeath(countryCode, TIMEOUT);
+	}, deathRate);
+	++i;
+});
