@@ -10,23 +10,33 @@ function showLoader() {
     $('#loader').show();
 }
 
-function getSingleTweetDisplay(handle, tweet) {
-    var tweetDisplay = '<li class="collection-item avatar">';
-    tweetDisplay += '<img src="' + getImageUrl(handle) + '" alt="" class="circle">';
-    tweetDisplay += '<span class="title">' + handle + '</span><blockquote><i>' + tweet + '</i></blockquote>';
-    tweetDisplay += '<a href="#!" class="secondary-content"><i class="medium material-icons">play_arrow</i></a></li>';
+function getSingleTweetDisplay(handle, tweetObj) {
+    var dateObj = tweetObj['date'];
+    var status = tweetObj['status'];
+    var dateStr = dateObj['date'];    
+    var tweetDisplay = '<li class="collection-item">';    
+    //tweetDisplay += '<img src="' + getImageUrl(handle) + '" alt="" class="circle">';
+    //tweetDisplay += '<span class="title">' + handle + '</span><blockquote><i>' + tweet + '</i></blockquote>';
+    tweetDisplay += status +'</li>';
+    //tweetDisplay += '<a href="#!" class="secondary-content"><i class="medium material-icons">play_arrow</i></a></li>';
     return tweetDisplay;
 }
 
 function getDisplayResults(twitterObjs) {
     var htmlString = '';
-    $.each(twitterObjs, function(handle, tweet) {
-        htmlString += getSingleTweetDisplay(handle, tweet);
+    var numTweets = 0;
+    $.each(twitterObjs, function(handle, twitterObj) {
+        htmlString += getSingleTweetDisplay(handle, twitterObj);
+        numTweets += 1;
     });
+    if (numTweets==0) {
+        return '<li class="collection-item">No results</li>';
+    }
     return htmlString;
 }
 
 function displayResults(twitterObjs) {
+    console.log(twitterObjs);
     var htmlString = getDisplayResults(twitterObjs);
     $('.res').show();
     $('.collection').append(htmlString);

@@ -9,6 +9,9 @@ var BIRTH_COLOR = 'blue';
 var DEATH_COLOR = 'red';
 var DEFAULT_COLOR = 'green';
 
+var totalDeaths = 0;
+var totalBirths = 0;
+
 var map = new Datamap({
 	element: document.getElementById('map'),	
 	geographyConfig: {
@@ -31,7 +34,19 @@ function backToOriginalColor(countryCode) {
 	map.updateChoropleth(obj);
 }
 
-function applyDeath(countryCode) {		
+function updateDeathCount() {
+	/*var dc = 'Total deaths: '+totalDeaths;
+	$('.deaths').text(dc);*/
+}
+
+function updateBirthCount() {
+	/*var bc = 'Total births: '+totalBirths;
+	$('.birth').text(bc);*/
+}
+
+function applyDeath(countryCode) {	
+	++totalDeaths;
+	updateDeathCount();
 	var obj = {};
 	obj[countryCode] = DEATH_COLOR;
 	map.updateChoropleth(obj);	
@@ -42,6 +57,8 @@ function applyDeath(countryCode) {
 }
 
 function applyBirth(countryCode) {	
+	++totalBirths;
+	updateBirthCount();
 	var obj = {};
 	obj[countryCode] = BIRTH_COLOR;
 	map.updateChoropleth(obj);	
