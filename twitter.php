@@ -2,6 +2,8 @@
 error_reporting(E_ALL); 
 ini_set('display_errors', 1);
 
+date_default_timezone_set('America/New_York');
+
 require_once('TwitterAPIExchange.php');
 
 $url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
@@ -20,7 +22,7 @@ function getJsonFromFile($fileName) {
 	return json_decode($string, true);
 }
 
-function cleanTweet($tweet, $searchTerm) {
+function cleanTweet($tweetObj, $searchTerm) {
     $split_sentences = '%(?#!php/i split_sentences Rev:20160820_1800)
     # Split sentences on whitespace between them.
     # See: http://stackoverflow.com/a/5844564/433790
@@ -42,6 +44,8 @@ function cleanTweet($tweet, $searchTerm) {
     \s+           # Split on whitespace between sentences,
     (?=\S)        # (but not at end of string).
     %xi';  // End $split_sentences.
+    $tweet = $tweetObj['status'];
+    $dateObj = $tweetObj['date'];
     if (strpos($tweet, $searchTerm)) {
         //find the sentence-end after the search term
         $sentenceEnd = substr($tweet, strpos($tweet, $searchTerm), strlen($tweet));
@@ -63,7 +67,7 @@ function cleanTweetArray($tweetArray, $searchTerm) {
     foreach($tweetArray as $user=>$tweet) {
         $cleanedTweet = cleanTweet($tweet, $searchTerm);  
         if(!isNullOrEmptyString($cleanedTweet)) {
-            $cleaned[$user] = $cleanedTweet;
+            $cleaned[$user] = array('status'=>$cleanedTweet, 'date'=>$tweet['date']);
         }        
     }
     return $cleaned;
@@ -74,11 +78,24 @@ function isJson($string) {
     return (json_last_error() == JSON_ERROR_NONE);
 }
 
+function convert_date_to_est($date) {
+    //$date = 'Thu Mar 30 23:49:06 +0000 2017';
+    $time = strtotime(substr($date, 0, 20));
+    $dateInLocal = date("Y-m-d H:i:s", $time);
+    $year = substr($dateInLocal,0,10);
+    $time = substr($dateInLocal, 11, 20);
+    return array('day'=>$year, 'time'=>$time);
+}
+
 function getTweetsFromJson($jsonObj) {
     $tweets = array();    
-	$userStatus = $jsonObj['statuses'];    
-    foreach($userStatus as $status) {
-        $tweets[$status['user']['screen_name']] = $status['text'];
+    if(array_key_exists('statuses', $jsonObj)) {
+    	$userStatus = $jsonObj['statuses'];       
+        foreach($userStatus as $status) {
+            //$tweets[$status['user']['screen_name']] = $status['text'];
+            $date = convert_date_to_est($status['created_at']);      
+            $tweets[$status['user']['screen_name']] =  array('status'=>$status['text'], 'date'=>$date);
+        }
     }
     return $tweets;
 }
@@ -87,26 +104,33 @@ function isError($jsonObj) {
     return $jsonObj["errors"][0]["message"] != "";
 }
 
-$to_search = '';
-if(isset($_POST[$search_term])) {
-	$to_search = $_POST[$search_term];
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $to_search = '';
+    if(isset($_POST[$search_term])) {
+        $to_search = $_POST[$search_term];
+    }
+    //$to_search='Trump is';
+    $search_field = '?q='.urlencode('"'.$to_search.'"');
+    $requestMethod = 'GET';
+    try {
+        $twitter = new TwitterAPIExchange($settings);
+        $twitterResults =  json_decode($twitter->setGetfield($search_field)
+                                    ->buildOauth($search_url, $requestMethod)
+                                    ->performRequest(), true);
+
+        //echo $twitterResults;    
+        $result = getTweetsFromJson($twitterResults);
+        $cleanedResult = cleanTweetArray($result, $to_search);
+        echo json_encode(array('error' => NULL, 'result'=>$cleanedResult));
+    } catch (Exception $ex) {
+        echo json_encode(array('error' => $ex->getMessage()));
+    }
+} else if($_SERVER['REQUEST_METHOD']==='GET') {
+    echo 'for the world';
 }
-$search_field = '?q='.urlencode('"'.$to_search.'"');
-
-$requestMethod = 'GET';
-
-try {
-    $twitter = new TwitterAPIExchange($settings);
-    $twitterResults =  json_decode($twitter->setGetfield($search_field)
-                                ->buildOauth($search_url, $requestMethod)
-                                ->performRequest(), true);
 
 
-    $result = getTweetsFromJson($twitterResults);
-    $cleanedResult = cleanTweetArray($result, $to_search);
-    echo json_encode(array('error' => NULL, 'result'=>$cleanedResult));
-} catch (Exception $ex) {
-    echo json_encode(array('error' => $ex->getMessage()));
-}
 
 ?>
