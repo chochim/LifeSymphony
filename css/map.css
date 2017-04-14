@@ -9,8 +9,38 @@ html, body {
     width: 100%;
 }
 
+#toast-container {
+  top: auto !important;
+  left: auto !important;
+  bottom: 20px;
+  right: 20px;    
+}
+
+.bg {
+	background-color: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.birth {
+
+}
+
+/*
+.country_info {
+	position: absolute;
+	z-index: 99;
+	bottom: 50px;
+	left: 20px;
+	width: 10px;
+	background-color: white;
+}*/
+
 .timer {
 	position: absolute;
-	top: 10px;
+	top: 200px;
+	z-index: 200;
+	left: 200px;
 	padding: 12px;
 }
