@@ -82,8 +82,14 @@ function updateBirthCount() {
 	$('.birth').text(bc);
 }
 
+function updateRealTime(strng) {
+	$('#live').append('<li class="collection-item">'+strng+'</li>');
+	//$('#textdiv').animate({scrollTop: $('#textdiv').prop("scrollHeight")}, 500);
+	$('.live-status').animate({scrollTop: $('#live').prop('scrollHeight')}, 10);
+}
+
 function applyDeath(countryCode) {	
-	console.log('Person died in '+countries[countryCode]);
+	updateRealTime('Death in '+countries[countryCode]);
 	++totalDeaths;
 	updateDeathCount();
 	var obj = {};
@@ -96,7 +102,7 @@ function applyDeath(countryCode) {
 }
 
 function applyBirth(countryCode) {	
-	console.log('Person born in '+countries[countryCode]);
+	updateRealTime('Birth in '+countries[countryCode]);
 	++totalBirths;
 	updateBirthCount();
 	var obj = {};
