@@ -6,17 +6,6 @@ date_default_timezone_set('America/New_York');
 
 require_once('TwitterAPIExchange.php');
 
-$url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
-$search_url = "https://api.twitter.com/1.1/search/tweets.json";
-$search_term = 'search_term';
-
-$settings = array(
-    'oauth_access_token' => "845508174216134656-6yShm1CJisjMNtnK4gYpYS1iFpu57qO",
-    'oauth_access_token_secret' => "rnlTV3Udk8JdoV1U0oq0xBxhQSpcyhOm0zwgnxF2UUitg",
-    'consumer_key' => "UnAkQ7LeyIKJTe5ZEK9FWrub5",
-    'consumer_secret' => "ijtIkeyC2Rv3Hyn6f60m3JB1SZV4S5sOPMqs298dIV44NDjlRP"
-);
-
 function getJsonFromFile($fileName) {
 	$string = file_get_contents($fileName);
 	return json_decode($string, true);
@@ -56,6 +45,17 @@ function cleanTweet($tweetObj, $searchTerm) {
         //check if serachTerm is contained in the tweet
         return '';
     }
+}
+
+function readSearchTermFromFile() {
+    $filename = 'search.txt';
+    $searchTerm = '';
+    if(file_exists($filename)) {
+        $file = fopen($filename, 'r');
+        $searchTerm = fread($file, filesize($filename));
+        fclose($file);        
+    }
+    return $searchTerm;
 }
 
 function isNullOrEmptyString($question){
@@ -100,18 +100,16 @@ function getTweetsFromJson($jsonObj) {
     return $tweets;
 }
 
-function isError($jsonObj) {
-    return $jsonObj["errors"][0]["message"] != "";
-}
+function getTwitterResultJson($to_search) {
+    $url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
+    $search_url = "https://api.twitter.com/1.1/search/tweets.json";    
 
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $to_search = '';
-    if(isset($_POST[$search_term])) {
-        $to_search = $_POST[$search_term];
-    }
-    //$to_search='Trump is';
+    $settings = array(
+        'oauth_access_token' => "845508174216134656-6yShm1CJisjMNtnK4gYpYS1iFpu57qO",
+        'oauth_access_token_secret' => "rnlTV3Udk8JdoV1U0oq0xBxhQSpcyhOm0zwgnxF2UUitg",
+        'consumer_key' => "UnAkQ7LeyIKJTe5ZEK9FWrub5",
+        'consumer_secret' => "ijtIkeyC2Rv3Hyn6f60m3JB1SZV4S5sOPMqs298dIV44NDjlRP"
+    );
     $search_field = '?q='.urlencode('"'.$to_search.'"');
     $requestMethod = 'GET';
     try {
@@ -123,14 +121,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //echo $twitterResults;    
         $result = getTweetsFromJson($twitterResults);
         $cleanedResult = cleanTweetArray($result, $to_search);
-        echo json_encode(array('error' => NULL, 'result'=>$cleanedResult));
+        return json_encode(array('error' => NULL, 'result'=>$cleanedResult));
     } catch (Exception $ex) {
-        echo json_encode(array('error' => $ex->getMessage()));
+        return json_encode(array('error' => $ex->getMessage()));
     }
-} else if($_SERVER['REQUEST_METHOD']==='GET') {
-    echo 'for the world';
 }
 
+function isError($jsonObj) {
+    return $jsonObj["errors"][0]["message"] != "";
+}
 
+function getResultString($twitterJson) {
+    $jsonObj = json_decode($twitterJson);
+    $resultArray = [];
+    if(is_null($jsonObj->error)) {
+        $resultObj = $jsonObj->result;
+        foreach ($resultObj as $handle => $tweetObj) {
+            $dateObj = $tweetObj->date;
+            $resultArray[] = $tweetObj->status.'|'.$dateObj->day;
+        }
+        return implode('$$', $resultArray);
+    } else {
+        return 'Error: '+$jsonObj['error'];
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $to_search = '';
+    $search_term = 'search_term';
+    if(isset($_POST[$search_term])) {
+        $to_search = $_POST[$search_term];
+    }
+    //$to_search='Trump is';
+    echo getTwitterResultJson($to_search);
+    
+} else if($_SERVER['REQUEST_METHOD']==='GET') {
+    echo getResultString(getTwitterResultJson(readSearchTermFromFile()));
+}
 
 ?>
