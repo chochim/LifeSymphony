@@ -133,7 +133,7 @@ function isError($jsonObj) {
 
 function getResultString($twitterJson) {
     $jsonObj = json_decode($twitterJson);
-    $resultArray = [];
+    $resultArray = array();
     if(is_null($jsonObj->error)) {
         $resultObj = $jsonObj->result;
         foreach ($resultObj as $handle => $tweetObj) {
