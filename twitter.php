@@ -11,40 +11,11 @@ function getJsonFromFile($fileName) {
 	return json_decode($string, true);
 }
 
-function cleanTweet($tweetObj, $searchTerm) {
-    $split_sentences = '%(?#!php/i split_sentences Rev:20160820_1800)
-    # Split sentences on whitespace between them.
-    # See: http://stackoverflow.com/a/5844564/433790
-    (?<=          # Sentence split location preceded by
-      [.!?]       # either an end of sentence punct,
-    | [.!?][\'"]  # or end of sentence punct and quote.
-    )             # End positive lookbehind.
-    (?<!          # But don\'t split after these:
-      Mr\.        # Either "Mr."
-    | Mrs\.       # Or "Mrs."
-    | Ms\.        # Or "Ms."
-    | Jr\.        # Or "Jr."
-    | Dr\.        # Or "Dr."
-    | Prof\.      # Or "Prof."
-    | Sr\.        # Or "Sr."
-    | T\.V\.A\.   # Or "T.V.A."
-                 # Or... (you get the idea).
-    )             # End negative lookbehind.
-    \s+           # Split on whitespace between sentences,
-    (?=\S)        # (but not at end of string).
-    %xi';  // End $split_sentences.
-    $tweet = $tweetObj['status'];
-    $dateObj = $tweetObj['date'];
-    if (strpos($tweet, $searchTerm)) {
-        //find the sentence-end after the search term
-        $sentenceEnd = substr($tweet, strpos($tweet, $searchTerm), strlen($tweet));
-        //search for full-stop or the end
-        $sentences = preg_split($split_sentences, $sentenceEnd, -1, PREG_SPLIT_NO_EMPTY);
-        return $sentences[0];
-    } else {    
-        //check if serachTerm is contained in the tweet
-        return '';
-    }
+function cleanTweet($tweetObj, $searchTerm) {  
+    $firstSearchTerm = explode(' ', $searchTerm);
+    $tweet = $tweetObj['status'];    
+    $start = stripos($tweet, $firstSearchTerm[0]);//case insensitive
+    return substr($tweet, $start);  
 }
 
 function readSearchTermFromFile() {
@@ -62,12 +33,18 @@ function isNullOrEmptyString($question){
     return (!isset($question) || trim($question)==='');
 }
 
+function removeURLFromTweet($tweet) {
+    // taken from http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+    $urlRegex = '~(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))~';
+    return preg_replace($urlRegex, '', $tweet); // remove urls
+}
+
 function cleanTweetArray($tweetArray, $searchTerm) {
     $cleaned = array();
     foreach($tweetArray as $user=>$tweet) {
         $cleanedTweet = cleanTweet($tweet, $searchTerm);  
         if(!isNullOrEmptyString($cleanedTweet)) {
-            $cleaned[$user] = array('status'=>$cleanedTweet, 'date'=>$tweet['date']);
+            $cleaned[$user] = array('status'=>removeURLFromTweet($cleanedTweet), 'date'=>$tweet['date']);
         }        
     }
     return $cleaned;
@@ -111,17 +88,15 @@ function getTwitterResultJson($to_search) {
         'consumer_key' => "UnAkQ7LeyIKJTe5ZEK9FWrub5",
         'consumer_secret' => "ijtIkeyC2Rv3Hyn6f60m3JB1SZV4S5sOPMqs298dIV44NDjlRP"
     );
-    $search_field = '?q='.urlencode('"'.$to_search.'"');
-    //$search_field = '?q='.urlencode($to_search);
+    $search_field = '?q='.urlencode('"'.$to_search.'"');    
     $search_field .= '&count='.$result_count;
+    $search_field .= '&lang=en';
     $requestMethod = 'GET';
     try {
         $twitter = new TwitterAPIExchange($settings);
         $twitterResults =  json_decode($twitter->setGetfield($search_field)
                                     ->buildOauth($search_url, $requestMethod)
                                     ->performRequest(), true);
-        echo '<pre>';        
-        echo json_encode($twitterResults);    
         $result = getTweetsFromJson($twitterResults);
         $cleanedResult = cleanTweetArray($result, $to_search);
         return json_encode(array('error' => NULL, 'result'=>$cleanedResult));
@@ -155,12 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET
     if(isset($_POST[$search_term])) {
         $to_search = $_POST[$search_term];
     }
-    //$to_search='Trump is';
-    echo getTwitterResultJson($to_search);
-    
+    if(isset($_GET[$search_term])) {
+        $to_search = $_GET[$search_term];
+    }    
+    echo getTwitterResultJson($to_search);    
 }
-/* else if($_SERVER['REQUEST_METHOD']==='GET') {
-    echo getResultString(getTwitterResultJson(readSearchTermFromFile()));
-}*/
 
 ?>
