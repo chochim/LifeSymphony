@@ -102,7 +102,8 @@ function getTweetsFromJson($jsonObj) {
 
 function getTwitterResultJson($to_search) {
     $url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
-    $search_url = "https://api.twitter.com/1.1/search/tweets.json";    
+    $search_url = "https://api.twitter.com/1.1/search/tweets.json";  
+    $result_count = 20;  
 
     $settings = array(
         'oauth_access_token' => "845508174216134656-6yShm1CJisjMNtnK4gYpYS1iFpu57qO",
@@ -111,14 +112,16 @@ function getTwitterResultJson($to_search) {
         'consumer_secret' => "ijtIkeyC2Rv3Hyn6f60m3JB1SZV4S5sOPMqs298dIV44NDjlRP"
     );
     $search_field = '?q='.urlencode('"'.$to_search.'"');
+    //$search_field = '?q='.urlencode($to_search);
+    $search_field .= '&count='.$result_count;
     $requestMethod = 'GET';
     try {
         $twitter = new TwitterAPIExchange($settings);
         $twitterResults =  json_decode($twitter->setGetfield($search_field)
                                     ->buildOauth($search_url, $requestMethod)
                                     ->performRequest(), true);
-
-        //echo $twitterResults;    
+        echo '<pre>';        
+        echo json_encode($twitterResults);    
         $result = getTweetsFromJson($twitterResults);
         $cleanedResult = cleanTweetArray($result, $to_search);
         return json_encode(array('error' => NULL, 'result'=>$cleanedResult));
@@ -146,7 +149,7 @@ function getResultString($twitterJson) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
     $to_search = '';
     $search_term = 'search_term';
     if(isset($_POST[$search_term])) {
@@ -155,8 +158,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //$to_search='Trump is';
     echo getTwitterResultJson($to_search);
     
-} else if($_SERVER['REQUEST_METHOD']==='GET') {
-    echo getResultString(getTwitterResultJson(readSearchTermFromFile()));
 }
+/* else if($_SERVER['REQUEST_METHOD']==='GET') {
+    echo getResultString(getTwitterResultJson(readSearchTermFromFile()));
+}*/
 
 ?>

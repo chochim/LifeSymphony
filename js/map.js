@@ -21,15 +21,10 @@ for (var i = 0, j = countryObjs.length; i < j; i++) {
 
 var map = new Datamap({
 	element: document.getElementById('map'),
-	done: function(datamap) {
-	    datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {	      
-	      Materialize.toast(getCountryInfoString(geography.id, false), TIME_INFO, 'rounded');	      
-	    });
-	  },	
 	geographyConfig: {
             highlightOnHover: true,
             popupOnHover: true,
-            hideAntarctica: false,
+            hideAntarctica: true,
             popupTemplate: function(geography, data) {
             	return getCountryInfoString(geography.id, true);
             }         
