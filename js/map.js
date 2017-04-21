@@ -100,7 +100,7 @@ function applyDeath(countryCode, deathRate) {
 	}, deathRate);	
 }
 
-function applyBirth(countryCode, birthRate) {	
+function applyBirth(countryCode, birthRate) {		
 	updateRealTime('Birth in '+countries[countryCode]);
 	++totalBirths;
 	updateBirthCount();
@@ -180,6 +180,15 @@ for(var k=0; k<INSTRUMENTS.length;++k) {
 		var countryCode = $(this).val();
 
 		console.log(countryCode+' selected '+instrument);		
+	});
+	$(INSTRUMENTS[k]+'-switch').change(function() {
+		console.log('Instrument switch ='+this.id);
+		var instrumentSwitch = this.id;
+		if($(this).is(':checked')) {
+
+		} else {
+
+		}
 	});
 }
 
