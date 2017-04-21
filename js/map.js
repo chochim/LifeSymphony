@@ -10,6 +10,8 @@ var DEATH_COLOR = 'red';
 var DEFAULT_COLOR = 'green';
 var TIME_INFO = 1500;
 
+var INSTRUMENTS = new Array('#piano', '#flute', '#drums');
+
 var totalDeaths = 0;
 var totalBirths = 0;
 
@@ -18,8 +20,6 @@ var countryObjs = Datamap.prototype.worldTopo.objects.world.geometries;
 for (var i = 0, j = countryObjs.length; i < j; i++) {  
   countries[countryObjs[i].id] = countryObjs[i].properties.name;  
 }
-
-var countryMusic = new Array();
 
 var map = new Datamap({
 	element: document.getElementById('map'),
@@ -131,9 +131,9 @@ $(document).ready(function(){
 });
 
 function addSelect(countryCode) {
-	$('#piano').append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
-	$('#flute').append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
-	$('#drums').append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
+	for(var i=0;i<INSTRUMENTS.length;++i) {
+		$(INSTRUMENTS[i]).append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
+	}
 }
 
 $.each(data, function(countryCode, birthDeathObj){
@@ -170,6 +170,17 @@ function getNote(event, instrument) {
 	} else {
 		return 70;
 	}
+}
+
+var countryMusic = new Array();
+
+for(var k=0; k<INSTRUMENTS.length;++k) {
+	$(INSTRUMENTS[k]).change(function(){
+		var instrument = INSTRUMENTS[k];
+		var countryCode = $(this).val();
+
+		console.log(countryCode+' selected '+INSTRUMENTS[k]);		
+	});
 }
 
 function playDeathSound(countryCode, instrument) {
