@@ -132,6 +132,10 @@ $(document).ready(function(){
 	$('ul.tabs').tabs();
 });
 
+function addSelect(countryCode) {
+	$('#drum').append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
+}
+
 $.each(data, function(countryCode, birthDeathObj){
 	//TODO: Check error here
 	if (!(countryCode=='FLK')) {		
@@ -143,6 +147,7 @@ $.each(data, function(countryCode, birthDeathObj){
 		setTimeout(function(){		
 			applyDeath(countryCode, deathRate);
 		}, deathRate);	
+		addSelect(countryCode);
 	}
 });
 
@@ -153,6 +158,9 @@ function setupList() {
 	$('.live-status').height(500);
 	$('.live-status').width(width);
 }
+$(document).ready(function() {
+    $('select').material_select();
+});
 
 setupList();
 

@@ -1,46 +1,76 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">  	
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css"  media="screen,projection">
-	<link rel="stylesheet" type="text/css" href="css/map.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title>Life Symphony</title>	
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css" media="screen,projection">
+    <link rel="stylesheet" type="text/css" href="css/map.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Symphony</title>
 </head>
+
 <body>
-	<header>
-		<div class="navbar-fixed">
-			<nav>
-				<a href="#" class="brand-logo center inactive-link">Life Symphony</a>
-				<ul id="nav-mobile" class="left hide-on-med-and-down">
-        			<li><a id="basicUsage" class="inactive-link" href="#"></a></li>      
-      			</ul>      			
-			</nav>		
-		</div>
-	</header>
-	<div class="container">
-		<div class="col s12">
-			<ul class="tabs tabs-fixed-width">
-        		<li class="tab col s3"><a class="active" href="#map">Map Mode</a></li>
-        		<li class="tab col s3"><a href="#text-mode">Text Mode</a></li>
-      		</ul>
-    	</div>
-		<div id="map" class="col s12"></div>
-		<div id="text-mode" class="col s12">
-			<!--<h5 id="results" class="center">Results</h5>-->
-			<ul class="collection live-status" id="live">				
-			</ul>
-		</div>
-	</div>        
-	<script type="text/javascript" src="js/stats.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>          
-	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>	
-	<script src="//cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.8/datamaps.world.min.js"></script>
-	<script type="text/javascript" src="js/moment.js"></script>
-	<script type="text/javascript" src="js/easytimer.min.js"></script>	
-	<script type="text/javascript" src="js/map.js"></script>	
+    <header>
+        <div class="navbar-fixed">
+            <nav>
+                <a href="#" class="brand-logo center inactive-link">Life Symphony</a>
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li>
+                        <a id="basicUsage" class="inactive-link" href="#"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="col s12">
+            <ul class="tabs tabs-fixed-width">
+                <li class="tab col s3"><a class="active" href="#map">Map Mode</a></li>
+                <li class="tab col s3"><a href="#text-mode">Text Mode</a></li>
+            </ul>
+        </div>
+        <div id="map" class="col s12"></div>
+        <div id="text-mode" class="col s12">
+            <!--<h5 id="results" class="center">Results</h5>-->
+            <ul class="collection live-status" id="live">
+            </ul>
+        </div>
+        <div class="row center">
+            <div class="col s4 grid-item">
+                <h5>Drum</h5>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select id="drum">
+                            <option value="default" disabled selected>Choose country</option>
+                        </select>
+                        <label>Select Country</label>
+                    </div>            
+
+                </div>
+                <div class="row rel">
+                	<div class="circle"></div>
+                </div>
+            </div>
+            <div class="col s4">Row
+            </div>
+            <div class="col s4">Row</div>
+        </div>
+        <div class="row center">
+            <div class="col s4">Row</div>
+            <div class="col s4">Row</div>
+            <div class="col s4">Row</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/stats.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.8/datamaps.world.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/easytimer.min.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
 </body>
+
 </html>

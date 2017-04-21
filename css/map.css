@@ -4,33 +4,57 @@
 }
 
 #toast-container {
-  top: auto !important;
-  left: auto !important;
-  bottom: 20px;
-  right: 20px;    
+    top: auto !important;
+    left: auto !important;
+    bottom: 20px;
+    right: 20px;
 }
 
-.switch {	
-	padding-right: 15px;	
+.switch {
+    padding-right: 15px;
 }
 
 .sw {
-	color: white;
+    color: white;
+}
+
+.grid-item {
+    padding: 5px;
+    border-color: #BDBDBD;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .bg {
-	background-color: rgba(0, 0, 0, 0.7);
-	color: white;
-	padding: 10px;
-	border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .inactive-link {
-   pointer-events: none;
-   cursor: default;
+    pointer-events: none;
+    cursor: default;
 }
 
-.live-status {	
-	position: relative;	
-	overflow-y: auto;		
+.live-status {
+    position: relative;
+    overflow-y: auto;
+}
+
+.rel {
+    position: relative;
+    overflow: inherit;
+}
+
+.circle {
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 50%;
+    width: 50%;
+    overflow: inherit;
+    height: 50%;
+    padding-bottom: 50%;
+    background: orange;
 }
