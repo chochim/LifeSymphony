@@ -10,13 +10,24 @@
 	<title>Life Symphony</title>	
 </head>
 <body>
-	<div id="map"></div>
-	<div id="empty"></div>
-	<div id="basicUsage" class="timer">00:00:00</div>
-	<div class="birth"></div>
-	<div class="deaths"></div>	
-	<ul class="collection live-status" id="live">		
-	</ul>	
+	<header>
+		<div class="navbar-fixed">
+			<nav class="teal darken-1">
+				<a href="#" class="brand-logo center inactive-link">Life Symphony</a>
+				<ul id="nav-mobile" class="left hide-on-med-and-down">
+        			<li><a id="basicUsage" class="inactive-link" href="#"></a></li>        
+      			</ul>
+			</nav>		
+		</div>
+	</header>
+	<div class="container">
+        <div id="map"></div>
+		<div id="empty"></div>		
+		<div class="birth"></div>
+		<div class="deaths"></div>	
+		<ul class="collection live-status" id="live">		
+		</ul>	
+    </div>	
 	<script type="text/javascript" src="js/stats.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>          

@@ -32,7 +32,7 @@ var map = new Datamap({
     fills: {
       defaultFill: DEFAULT_COLOR
     },
-    responsive: false,
+    responsive: true,
 });
 
 var timeouts = [];
