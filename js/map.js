@@ -11,6 +11,11 @@ var DEFAULT_COLOR = 'green';
 var TIME_INFO = 1500;
 
 var INSTRUMENTS = new Array('#piano', '#flute', '#drums');
+var instrumentMap = {};
+for(var k=0; k<INSTRUMENTS.length;++k) {
+	instrumentMap[INSTRUMENTS[k]] = {};
+	instrumentMap[INSTRUMENTS[k]]['event'] = 'death';
+}
 
 var totalDeaths = 0;
 var totalBirths = 0;
@@ -152,7 +157,8 @@ $.each(data, function(countryCode, birthDeathObj){
 });
 
 function setupList() {
-	var height = $('#map').innerHeight() - $('#results').outerHeight();
+	//TODO: Reset height
+	var height = $('#map').innerHeight();
 	var width = $('#map').innerWidth();
 	console.log('height = '+height);
 	$('.live-status').height(500);
@@ -172,23 +178,37 @@ function getNote(event, instrument) {
 	}
 }
 
+function getIdFromSwitch(switchId) {	
+	var index = switchId.search('-switch');
+	return switchId.substr(0, index);
+}
+
+function getSwitchId(instrument) {
+	return '#'+instrument+'-switch';
+}
+
 var countryMusic = new Array();
 
 for(var k=0; k<INSTRUMENTS.length;++k) {
 	$(INSTRUMENTS[k]).change(function(){
 		var instrument = this.id;
 		var countryCode = $(this).val();
-
-		console.log(countryCode+' selected '+instrument);		
+		instrumentMap['#'+instrument]['country'] = countryCode;
+		//console.log(countryCode+' selected '+instrument);		
+		console.log(JSON.stringify(instrumentMap));
 	});
 	$(INSTRUMENTS[k]+'-switch').change(function() {
 		console.log('Instrument switch ='+this.id);
 		var instrumentSwitch = this.id;
-		if($(this).is(':checked')) {
-
+		var instrumentId = getIdFromSwitch(instrumentSwitch);
+		if($('#'+instrumentSwitch).is(':checked')) {
+			//birth
+			instrumentMap['#'+instrumentId]['event'] = 'birth';
 		} else {
-
+			//death
+			instrumentMap['#'+instrumentId]['event'] = 'death';
 		}
+		console.log(JSON.stringify(instrumentMap));
 	});
 }
 
