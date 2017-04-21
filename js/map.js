@@ -114,6 +114,20 @@ function applyBirth(countryCode, birthRate) {
 	}, birthRate);		
 }
 
+function getMapHeight() {	
+	return 
+}
+
+function displayMapMode() {
+	$('#text-mode').hide();	
+	$('#map').show();	
+}
+
+function displayTextMode() {
+	$('#map').hide();
+	$('#text-mode').show();	
+}
+
 $.each(data, function(countryCode, birthDeathObj){
 	//TODO: Check error here
 	if (!(countryCode=='FLK')) {		
@@ -128,3 +142,26 @@ $.each(data, function(countryCode, birthDeathObj){
 	}
 });
 
+function setupList() {
+	var height = $('#map').innerHeight() - $('#results').outerHeight();
+	var width = $('#map').innerWidth();
+	console.log('height = '+height);
+	$('.live-status').height(500);
+	$('.live-status').width(width);
+}
+
+
+$('.switch input').change(function(){
+    if ( $('.switch input').is(':checked') ) {
+      	console.log('text mode');
+      	displayTextMode();
+    }
+    else {
+     	console.log('map mode');
+     	displayMapMode();
+    }
+});
+
+setupList();
+
+$('#text-mode').hide();
