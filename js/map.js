@@ -128,6 +128,10 @@ function displayTextMode() {
 	$('#text-mode').show();	
 }
 
+$(document).ready(function(){
+	$('ul.tabs').tabs();
+});
+
 $.each(data, function(countryCode, birthDeathObj){
 	//TODO: Check error here
 	if (!(countryCode=='FLK')) {		
@@ -150,18 +154,6 @@ function setupList() {
 	$('.live-status').width(width);
 }
 
-
-$('.switch input').change(function(){
-    if ( $('.switch input').is(':checked') ) {
-      	console.log('text mode');
-      	displayTextMode();
-    }
-    else {
-     	console.log('map mode');
-     	displayMapMode();
-    }
-});
-
 setupList();
 
-$('#text-mode').hide();
+//$('#text-mode').hide();

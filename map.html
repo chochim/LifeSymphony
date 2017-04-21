@@ -11,23 +11,23 @@
 <body>
 	<header>
 		<div class="navbar-fixed">
-			<nav class="teal darken-1">
+			<nav>
 				<a href="#" class="brand-logo center inactive-link">Life Symphony</a>
 				<ul id="nav-mobile" class="left hide-on-med-and-down">
         			<li><a id="basicUsage" class="inactive-link" href="#"></a></li>      
-      			</ul>
-      			<ul id="nav-mobile" class="right hide-on-med-and-down">
-      				<li id="choice" class="switch">
-    					<label class="sw">Map Mode<input type="checkbox">
-      					<span class="lever deep-orange"></span>Text Mode</label>
-  					</li>
-      			</ul>      	
+      			</ul>      			
 			</nav>		
 		</div>
 	</header>
 	<div class="container">
-		<div class="row" id="map"></div>
-		<div class="row" id="text-mode">
+		<div class="col s12">
+			<ul class="tabs tabs-fixed-width">
+        		<li class="tab col s3"><a class="active" href="#map">Map Mode</a></li>
+        		<li class="tab col s3"><a href="#text-mode">Text Mode</a></li>
+      		</ul>
+    	</div>
+		<div id="map" class="col s12"></div>
+		<div id="text-mode" class="col s12">
 			<!--<h5 id="results" class="center">Results</h5>-->
 			<ul class="collection live-status" id="live">				
 			</ul>
