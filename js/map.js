@@ -83,7 +83,7 @@ function updateRealTime(strng) {
 	$('.live-status').animate({scrollTop: $('#live').prop('scrollHeight')}, 10);
 }
 
-function applyDeath(countryCode) {	
+function applyDeath(countryCode, deathRate) {	
 	updateRealTime('Death in '+countries[countryCode]);
 	++totalDeaths;
 	updateDeathCount();
@@ -94,9 +94,12 @@ function applyDeath(countryCode) {
 			backToOriginalColor(countryCode);
 		}, TIMEOUT);	
 	++j;
+	setTimeout(function(){		
+			applyDeath(countryCode, deathRate);
+		}, deathRate);	
 }
 
-function applyBirth(countryCode) {	
+function applyBirth(countryCode, birthRate) {	
 	updateRealTime('Birth in '+countries[countryCode]);
 	++totalBirths;
 	updateBirthCount();
@@ -107,25 +110,22 @@ function applyBirth(countryCode) {
 			backToOriginalColor(countryCode);
 		}, TIMEOUT);	
 	++j;
+	setTimeout(function(){		
+			applyBirth(countryCode, birthRate);
+		}, birthRate);		
 }
-
-var birthIntervals = [];
-var deathIntervals = [];
-var i=0;
 
 $.each(data, function(countryCode, birthDeathObj){
 	//TODO: Check error here
 	if (!(countryCode=='FLK')) {		
 		var deathRate = birthDeathObj['death'];
-		var birthRate = birthDeathObj['birth'];
-		birthIntervals[i] = setInterval(function(){		
-			applyBirth(countryCode);
-		}, birthRate);		
-		deathIntervals[i] = setInterval(function(){		
-			applyDeath(countryCode);
+		var birthRate = birthDeathObj['birth'];		
+		setTimeout(function(){		
+			applyBirth(countryCode, birthRate);
+		}, birthRate);				
+		setTimeout(function(){		
+			applyDeath(countryCode, deathRate);
 		}, deathRate);	
-		
-		++i;
 	}
 });
 
