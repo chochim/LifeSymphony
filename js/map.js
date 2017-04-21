@@ -176,10 +176,10 @@ var countryMusic = new Array();
 
 for(var k=0; k<INSTRUMENTS.length;++k) {
 	$(INSTRUMENTS[k]).change(function(){
-		var instrument = INSTRUMENTS[k];
+		var instrument = this.id;
 		var countryCode = $(this).val();
 
-		console.log(countryCode+' selected '+INSTRUMENTS[k]);		
+		console.log(countryCode+' selected '+instrument);		
 	});
 }
 
