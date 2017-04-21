@@ -78,8 +78,7 @@ function updateBirthCount() {
 }
 
 function updateRealTime(strng) {
-	$('#live').append('<li class="collection-item">'+strng+'</li>');
-	//$('#textdiv').animate({scrollTop: $('#textdiv').prop("scrollHeight")}, 500);
+	$('#live').append('<li class="collection-item">'+strng+'</li>');	
 	$('.live-status').animate({scrollTop: $('#live').prop('scrollHeight')}, 10);
 }
 
@@ -91,12 +90,12 @@ function applyDeath(countryCode, deathRate) {
 	obj[countryCode] = DEATH_COLOR;
 	map.updateChoropleth(obj);	
 	timeouts[j] = setTimeout(function(){
-			backToOriginalColor(countryCode);
-		}, TIMEOUT);	
+		backToOriginalColor(countryCode);
+	}, TIMEOUT);	
 	++j;
 	setTimeout(function(){		
-			applyDeath(countryCode, deathRate);
-		}, deathRate);	
+		applyDeath(countryCode, deathRate);
+	}, deathRate);	
 }
 
 function applyBirth(countryCode, birthRate) {	
@@ -107,12 +106,12 @@ function applyBirth(countryCode, birthRate) {
 	obj[countryCode] = BIRTH_COLOR;
 	map.updateChoropleth(obj);	
 	timeouts[j] = setTimeout(function(){
-			backToOriginalColor(countryCode);
-		}, TIMEOUT);	
+		backToOriginalColor(countryCode);
+	}, TIMEOUT);	
 	++j;
 	setTimeout(function(){		
-			applyBirth(countryCode, birthRate);
-		}, birthRate);		
+		applyBirth(countryCode, birthRate);
+	}, birthRate);		
 }
 
 $.each(data, function(countryCode, birthDeathObj){
