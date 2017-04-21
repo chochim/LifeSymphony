@@ -19,6 +19,8 @@ for (var i = 0, j = countryObjs.length; i < j; i++) {
   countries[countryObjs[i].id] = countryObjs[i].properties.name;  
 }
 
+var countryMusic = new Array();
+
 var map = new Datamap({
 	element: document.getElementById('map'),
 	geographyConfig: {
@@ -130,6 +132,8 @@ $(document).ready(function(){
 
 function addSelect(countryCode) {
 	$('#piano').append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
+	$('#flute').append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
+	$('#drums').append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
 }
 
 $.each(data, function(countryCode, birthDeathObj){
@@ -160,12 +164,39 @@ $(document).ready(function() {
 
 setupList();
 
+function getNote(event, instrument) {
+	if(event=='birth') {
+		return 50;
+	} else {
+		return 70;
+	}
+}
+
 function playDeathSound(countryCode, instrument) {
 	MIDI.loadPlugin({
 		soundfontUrl: "./soundfont/",
 		instrument: "acoustic_grand_piano",
 		onprogress: function(state, progress) {
-			console.log(state, progress);
+			//console.log(state, progress);
+		},
+		onsuccess: function() {
+			var delay = 0; // play one note every quarter second
+			var note = 50; // the MIDI note
+			var velocity = 127; // how hard the note hits
+			// play the note
+			MIDI.setVolume(0, 127);
+			MIDI.noteOn(0, note, velocity, delay);
+			MIDI.noteOff(0, note, delay + 0.75);
+		}
+	});
+}
+
+function playBirthSound(countryCode, instrument) {
+	MIDI.loadPlugin({
+		soundfontUrl: "./soundfont/",
+		instrument: "acoustic_grand_piano",
+		onprogress: function(state, progress) {
+			//console.log(state, progress);
 		},
 		onsuccess: function() {
 			var delay = 0; // play one note every quarter second
