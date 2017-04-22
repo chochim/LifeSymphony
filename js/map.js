@@ -274,8 +274,7 @@ function applyCircleAnimation(instrument, ifBirth) {
             backgroundColor: BIRTH_COLOR
         }, {
         	duration: 'fast',
-            complete: function() {
-            	console.log('complete hua');
+            complete: function() {            	
                 $(instrument + '-circle').animate({
                     backgroundColor: 'orange'
                 }, {
@@ -289,7 +288,6 @@ function applyCircleAnimation(instrument, ifBirth) {
         }, {
         	duration: 'fast',
             complete: function() {
-            	console.log('death complete');
                 $(instrument + '-circle').animate({
                     backgroundColor: 'orange'
                 }, {
