@@ -35,6 +35,7 @@ function instrumentNoteSetup() {
     instrumentNotes['#drums']['birth']['velocity'] = 127;
     instrumentNotes['#drums']['birth']['delay'] = 0.75;
     instrumentNotes['#drums']['instrument'] = 'synth_drum';
+    instrumentNotes['#drums']['code'] = 118;
 
     //piano
     instrumentNotes['#piano']['death']['note'] = 50;
@@ -44,6 +45,7 @@ function instrumentNoteSetup() {
     instrumentNotes['#piano']['birth']['velocity'] = 127;
     instrumentNotes['#piano']['birth']['delay'] = 0.75;
     instrumentNotes['#piano']['instrument'] = 'acoustic_grand_piano';
+    instrumentNotes['#piano']['code'] = 0;
 
     //flute
     instrumentNotes['#flute']['death']['note'] = 50;
@@ -52,7 +54,8 @@ function instrumentNoteSetup() {
     instrumentNotes['#flute']['birth']['note'] = 30;
     instrumentNotes['#flute']['birth']['velocity'] = 127;
     instrumentNotes['#flute']['birth']['delay'] = 0.75;
-    instrumentNotes['#flute']['instrument'] = 'acoustic_guitar_nylon';
+    instrumentNotes['#flute']['instrument'] = 'flute';
+    instrumentNotes['#flute']['code'] = 73;    
 }
 
 instrumentNoteSetup();
@@ -62,8 +65,11 @@ var totalBirths = 0;
 
 var countries = {};
 var countryObjs = Datamap.prototype.worldTopo.objects.world.geometries;
-for (var i = 0, j = countryObjs.length; i < j; i++) {
-    countries[countryObjs[i].id] = countryObjs[i].properties.name;
+for (var i = 0; i < countryObjs.length;  i++) {
+	//console.log('code='+countryObjs[i].id+', '+countryObjs[i].properties.name);
+	if (!(countryObjs[i].properties.name===undefined)) {
+    	countries[countryObjs[i].id] = countryObjs[i].properties.name;
+	}
 }
 
 var map = new Datamap({
@@ -193,7 +199,10 @@ $(document).ready(function() {
 
 function addSelect(countryCode) {
     for (var i = 0; i < INSTRUMENTS.length; ++i) {
-        $(INSTRUMENTS[i]).append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
+    	if(!(countries[countryCode]===undefined)) {
+    		//console.log('CountryCode undefined'+countryCode);    	
+        	$(INSTRUMENTS[i]).append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
+    	}
     }
 }
 
@@ -215,8 +224,7 @@ $.each(data, function(countryCode, birthDeathObj) {
 function setupList() {
     //TODO: Reset height
     var height = $('#map').innerHeight();
-    var width = $('#map').innerWidth();
-    console.log('height = ' + height);
+    var width = $('#map').innerWidth();    
     $('.live-status').height(500);
     $('.live-status').width(width);
 }
@@ -251,10 +259,10 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
         var countryCode = $(this).val();
         instrumentMap['#' + instrument]['country'] = countryCode;
         //console.log(countryCode+' selected '+instrument);		
-        console.log(JSON.stringify(instrumentMap));
+        //console.log(JSON.stringify(instrumentMap));
     });
     $(INSTRUMENTS[k] + '-switch').change(function() {
-        console.log('Instrument switch =' + this.id);
+        //console.log('Instrument switch =' + this.id);
         var instrumentSwitch = this.id;
         var instrumentId = getIdFromSwitch(instrumentSwitch);
         if ($('#' + instrumentSwitch).is(':checked')) {
@@ -264,7 +272,7 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
             //death
             instrumentMap['#' + instrumentId]['event'] = 'death';
         }
-        console.log(JSON.stringify(instrumentMap));
+        //console.log(JSON.stringify(instrumentMap));
     });
 }
 
@@ -315,7 +323,9 @@ function playSound(countryCode, instrument, ifBirth) {
             var delay = instrumentNotes[instrument][event]['delay']; // play one note every quarter second
             var note = instrumentNotes[instrument][event]['note']; // the MIDI note
             var velocity = instrumentNotes[instrument][event]['velocity']; // how hard the note hits
+            var code = instrumentNotes[instrument]['code'];
             // play the note
+            MIDI.programChange(0, code);
             MIDI.setVolume(0, 127);
             MIDI.noteOn(0, note, velocity, 0);
             MIDI.noteOff(0, note, delay);
