@@ -48,6 +48,14 @@
     overflow: inherit;
 }
 
+.death-circle {
+    background-color: red;
+}
+
+.birth-circle {
+    background-color: blue;
+}
+
 .circle {
     margin: 0 auto;
     text-align: center;
