@@ -80,7 +80,7 @@ var map = new Datamap({
         popupOnHover: true,
         hideAntarctica: true,
         popupTemplate: function(geography, data) {
-            return getCountryInfoString(geography.id, true);
+            return getBPM(geography.id, true);
         }
     },
     fills: {
@@ -97,6 +97,29 @@ function humanizeTime(time) {
     return timeObj.humanize();
 }
 
+function getBPMFromRate(rate) {
+    var bpm = 60*rate/1000.0;
+    return bpm+' BPM';
+}
+
+function getBPM(countryCode, ifBackground) {
+    var countryName = countries[countryCode];
+    var birthRate = data[countryCode]['birth'];
+    var deathRate = data[countryCode]['death'];
+    var infoStr = '';
+    if (ifBackground) {
+        infoStr = '<div class="row bg"'
+    } else {
+        infoStr = '<div class="row">';
+    }
+    infoStr += '<b><u>' + countryName + '</u></b><br />';
+    var deathSentence = '<i>Death</i>: ' + getBPMFromRate(deathRate);
+    var birthSentence = '<i>Birth</i>: ' + getBPMFromRate(birthRate);
+    infoStr += deathSentence + '<br />';
+    infoStr += birthSentence + '</div>';
+    return infoStr;
+}
+
 function getCountryInfoString(countryCode, ifBackground) {
     var countryName = countries[countryCode];
     var birthRate = data[countryCode]['birth'];
@@ -108,8 +131,8 @@ function getCountryInfoString(countryCode, ifBackground) {
         infoStr = '<div class="row">';
     }
     infoStr += '<b><u>' + countryName + '</u></b><br />';
-    var deathSentence = '<i>Death</i>: ' + humanizeTime(deathRate);
-    var birthSentence = '<i>Birth</i>: ' + humanizeTime(birthRate);
+    var deathSentence = '<i>Death</i>: ' + deathRate;
+    var birthSentence = '<i>Birth</i>: ' + birthRate;
     infoStr += deathSentence + '<br />';
     infoStr += birthSentence + '</div>';
     return infoStr;
