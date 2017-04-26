@@ -74,6 +74,7 @@ for (var i = 0; i < countryObjs.length;  i++) {
 
 var map = new Datamap({
     element: document.getElementById('map'),
+    projection: "mercator",
     geographyConfig: {
         highlightOnHover: true,
         popupOnHover: true,
