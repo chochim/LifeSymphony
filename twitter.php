@@ -133,10 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo getTwitterResultJson($to_search);    
 } else if($_SERVER['REQUEST_METHOD'] === 'GET') {
     $to_search = '';
-    $search_term = 'search_term';
+    $search_term = 'search_term';    
     if(isset($_GET[$search_term])) {
         $to_search = $_GET[$search_term];
     }
+    /*if(isset($_GET['year'])) {
+        $year = intval($_GET['year']);
+    }*/
+    //echo getTwitterResultJson($to_search);
     echo getResultString(getTwitterResultJson($to_search));
 }
 
