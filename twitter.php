@@ -80,7 +80,7 @@ function getTweetsFromJson($jsonObj) {
 function getTwitterResultJson($to_search) {
     $url = "https://api.twitter.com/1.1/statuses/user_timeline.json";
     $search_url = "https://api.twitter.com/1.1/search/tweets.json";  
-    $result_count = 20;  
+    $result_count = 100;  
 
     $settings = array(
         'oauth_access_token' => "845508174216134656-6yShm1CJisjMNtnK4gYpYS1iFpu57qO",
@@ -124,16 +124,20 @@ function getResultString($twitterJson) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' || $_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $to_search = '';
     $search_term = 'search_term';
     if(isset($_POST[$search_term])) {
         $to_search = $_POST[$search_term];
-    }
-    if(isset($_GET[$search_term])) {
-        $to_search = $_GET[$search_term];
     }    
     echo getTwitterResultJson($to_search);    
+} else if($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $to_search = '';
+    $search_term = 'search_term';
+    if(isset($_GET[$search_term])) {
+        $to_search = $_GET[$search_term];
+    }
+    echo getResultString(getTwitterResultJson($to_search));
 }
 
 ?>
