@@ -55,7 +55,7 @@ function instrumentNoteSetup() {
     instrumentNotes['#flute']['birth']['velocity'] = 127;
     instrumentNotes['#flute']['birth']['delay'] = 0.75;
     instrumentNotes['#flute']['instrument'] = 'flute';
-    instrumentNotes['#flute']['code'] = 73;    
+    instrumentNotes['#flute']['code'] = 73;
 }
 
 instrumentNoteSetup();
@@ -65,11 +65,11 @@ var totalBirths = 0;
 
 var countries = {};
 var countryObjs = Datamap.prototype.worldTopo.objects.world.geometries;
-for (var i = 0; i < countryObjs.length;  i++) {
-	//console.log('code='+countryObjs[i].id+', '+countryObjs[i].properties.name);
-	if (!(countryObjs[i].properties.name===undefined)) {
-    	countries[countryObjs[i].id] = countryObjs[i].properties.name;
-	}
+for (var i = 0; i < countryObjs.length; i++) {
+    //console.log('code='+countryObjs[i].id+', '+countryObjs[i].properties.name);
+    if (!(countryObjs[i].properties.name === undefined)) {
+        countries[countryObjs[i].id] = countryObjs[i].properties.name;
+    }
 }
 
 var map = new Datamap({
@@ -198,12 +198,31 @@ $(document).ready(function() {
     $('ul.tabs').tabs();
 });
 
-function addSelect(countryCode) {
+function getSortedArray(data) {
+    var countries = [];
+    var reverseCountries = {};
+    $.each(data, function(code, country) {
+        if (!(code == 'FLK')) {
+            countries.push(country);
+            reverseCountries[country] = code;
+        }
+    });
+    countries.sort();
+    var sortedArray = {};
+    for (var i = 0; i < countries.length; ++i) {
+        sortedArray[reverseCountries[countries[i]]] = countries[i];
+    }
+    return sortedArray;
+}
+
+function addSelect(countries) {
+    var sortedCountries  = getSortedArray(countries);
     for (var i = 0; i < INSTRUMENTS.length; ++i) {
-    	if(!(countries[countryCode]===undefined)) {
-    		//console.log('CountryCode undefined'+countryCode);    	
-        	$(INSTRUMENTS[i]).append('<option value=' + countryCode + '>' + countries[countryCode] + '</option>');
-    	}
+        $.each(sortedCountries, function(code, country) {
+            if(!(country==undefined)) {
+                $(INSTRUMENTS[i]).append('<option value=' + code + '>' + country + '</option>')
+            }
+        });      
     }
 }
 
@@ -217,15 +236,16 @@ $.each(data, function(countryCode, birthDeathObj) {
         }, birthRate);
         setTimeout(function() {
             applyDeath(countryCode, deathRate);
-        }, deathRate);
-        addSelect(countryCode);
+        }, deathRate);        
     }
 });
+
+addSelect(countries);
 
 function setupList() {
     //TODO: Reset height
     var height = $('#map').innerHeight();
-    var width = $('#map').innerWidth();    
+    var width = $('#map').innerWidth();
     $('.live-status').height(500);
     $('.live-status').width(width);
 }
@@ -259,7 +279,7 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
         var instrument = this.id;
         var countryCode = $(this).val();
         instrumentMap['#' + instrument]['country'] = countryCode;
-        //console.log(countryCode+' selected '+instrument);		
+        //console.log(countryCode+' selected '+instrument);     
         //console.log(JSON.stringify(instrumentMap));
     });
     $(INSTRUMENTS[k] + '-switch').change(function() {
@@ -282,12 +302,12 @@ function applyCircleAnimation(instrument, ifBirth) {
         $(instrument + '-circle').animate({
             backgroundColor: BIRTH_COLOR
         }, {
-        	duration: 'fast',
-            complete: function() {            	
+            duration: 'fast',
+            complete: function() {
                 $(instrument + '-circle').animate({
                     backgroundColor: 'orange'
                 }, {
-                	duration: 'fast'
+                    duration: 'fast'
                 });
             }
         });
@@ -295,12 +315,12 @@ function applyCircleAnimation(instrument, ifBirth) {
         $(instrument + '-circle').animate({
             backgroundColor: DEATH_COLOR
         }, {
-        	duration: 'fast',
+            duration: 'fast',
             complete: function() {
                 $(instrument + '-circle').animate({
                     backgroundColor: 'orange'
                 }, {
-                	duration: 'fast'
+                    duration: 'fast'
                 });
             }
         });
@@ -309,7 +329,7 @@ function applyCircleAnimation(instrument, ifBirth) {
 
 function playSound(countryCode, instrument, ifBirth) {
     applyCircleAnimation(instrument, ifBirth);
-    
+
     var event = 'death';
     if (ifBirth) {
         event = 'birth';
