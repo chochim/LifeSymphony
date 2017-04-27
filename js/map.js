@@ -10,7 +10,7 @@ var DEATH_COLOR = 'red';
 var DEFAULT_COLOR = 'green';
 var TIME_INFO = 1500;
 
-var INSTRUMENTS = new Array('#C', '#D', '#E');//, '#F', '#G', '#A', '#B');
+var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#A', '#B');
 var instrumentMap = {};
 for (var k = 0; k < INSTRUMENTS.length; ++k) {
     instrumentMap[INSTRUMENTS[k]] = {};
@@ -56,6 +56,46 @@ function instrumentNoteSetup() {
     instrumentNotes['#E']['birth']['delay'] = 0.75;
     instrumentNotes['#E']['instrument'] = 'flute';
     instrumentNotes['#E']['code'] = 73;
+
+    //drum
+    instrumentNotes['#F']['death']['note'] = 50;
+    instrumentNotes['#F']['death']['velocity'] = 127;
+    instrumentNotes['#F']['death']['delay'] = 0.75;
+    instrumentNotes['#F']['birth']['note'] = 30;
+    instrumentNotes['#F']['birth']['velocity'] = 127;
+    instrumentNotes['#F']['birth']['delay'] = 0.75;
+    instrumentNotes['#F']['instrument'] = 'synth_drum';
+    instrumentNotes['#F']['code'] = 118;
+
+    //piano
+    instrumentNotes['#G']['death']['note'] = 50;
+    instrumentNotes['#G']['death']['velocity'] = 127;
+    instrumentNotes['#G']['death']['delay'] = 0.75;
+    instrumentNotes['#G']['birth']['note'] = 30;
+    instrumentNotes['#G']['birth']['velocity'] = 127;
+    instrumentNotes['#G']['birth']['delay'] = 0.75;
+    instrumentNotes['#G']['instrument'] = 'acoustic_grand_piano';
+    instrumentNotes['#G']['code'] = 0;
+
+    //flute
+    instrumentNotes['#A']['death']['note'] = 50;
+    instrumentNotes['#A']['death']['velocity'] = 127;
+    instrumentNotes['#A']['death']['delay'] = 0.75;
+    instrumentNotes['#A']['birth']['note'] = 30;
+    instrumentNotes['#A']['birth']['velocity'] = 127;
+    instrumentNotes['#A']['birth']['delay'] = 0.75;
+    instrumentNotes['#A']['instrument'] = 'flute';
+    instrumentNotes['#A']['code'] = 73;
+
+    instrumentNotes['#B']['death']['note'] = 50;
+    instrumentNotes['#B']['death']['velocity'] = 127;
+    instrumentNotes['#B']['death']['delay'] = 0.75;
+    instrumentNotes['#B']['birth']['note'] = 30;
+    instrumentNotes['#B']['birth']['velocity'] = 127;
+    instrumentNotes['#B']['birth']['delay'] = 0.75;
+    instrumentNotes['#B']['instrument'] = 'flute';
+    instrumentNotes['#B']['code'] = 73;
+
 }
 
 instrumentNoteSetup();
@@ -374,7 +414,7 @@ function applyCircleAnimation(instrument, ifBirth) {
 }
 
 function playSound(countryCode, instrument, ifBirth) {
-    applyCircleAnimation(instrument, ifBirth);
+    //applyCircleAnimation(instrument, ifBirth);
 
     var event = 'death';
     if (ifBirth) {
