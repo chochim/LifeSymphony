@@ -368,7 +368,7 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
         //console.log(countryCode+' selected '+instrument);     
         //console.log(JSON.stringify(instrumentMap));
     });
-    $(INSTRUMENTS[k] + '-switch').change(function() {
+    /*$(INSTRUMENTS[k] + '-switch').change(function() {
         //console.log('Instrument switch =' + this.id);
         var instrumentSwitch = this.id;
         var instrumentId = getIdFromSwitch(instrumentSwitch);
@@ -380,7 +380,7 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
             instrumentMap['#' + instrumentId]['event'] = 'death';
         }
         //console.log(JSON.stringify(instrumentMap));
-    });
+    });*/
 }
 
 function applyCircleAnimation(instrument, ifBirth) {

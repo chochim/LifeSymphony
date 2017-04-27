@@ -19,6 +19,7 @@
 }
 .switch {
     padding-right: 15px;
+    display: none;
 }
 
 .sw {
