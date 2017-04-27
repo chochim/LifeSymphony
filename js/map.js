@@ -302,18 +302,6 @@ function addSelect(countries) {
     }
 }
 
-function addHover() {
-    for(var i=0; i<INSTRUMENTS.length; ++i) {
-        $(INSTRUMENTS[i]).hover(
-  function() {
-    $( this ).append( $( "<span> ***</span>" ) );
-  }, function() {
-    $( this ).find( "span:last" ).remove();
-  }
-);
-    }
-}
-
 $.each(data, function(countryCode, birthDeathObj) {
     //TODO: Check error here
     if (!(countryCode == 'FLK')) {
@@ -412,6 +400,16 @@ function applyCircleAnimation(instrument, ifBirth) {
                 });
             }
         });
+    }
+}
+
+function getNote(ifBirth, instrument) {
+    if (ifBirth) {
+        var birthNotes = notes['birth'][instrument];
+        return birthNotes[Math.floor(Math.random() * birthNotes.length)];
+    } else {
+        var deathNotes = notes['death'][instrument];
+        return deathNotes[Math.floor(Math.random() * deathNotes.length)];
     }
 }
 
