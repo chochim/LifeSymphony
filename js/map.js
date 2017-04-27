@@ -13,8 +13,9 @@ var TIME_INFO = 1500;
 var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#A', '#B');
 var instrumentMap = {};
 for (var k = 0; k < INSTRUMENTS.length; ++k) {
-    instrumentMap[INSTRUMENTS[k]] = {};
-    instrumentMap[INSTRUMENTS[k]]['event'] = 'death';
+    //instrumentMap[INSTRUMENTS[k]] = {};
+    //instrumentMap[INSTRUMENTS[k]]['event'] = 'death';
+    instrumentMap[INSTRUMENTS[k]] = new Array();
 }
 
 var instrumentNotes = {};
@@ -235,9 +236,12 @@ function checkAndPlaySound(countryCode, event) {
     for (var k = 0; k < INSTRUMENTS.length; ++k) {
         //instrumentMap[instrument][country]
         //instrumentMap[instrument][event]
-        if ((instrumentMap[INSTRUMENTS[k]]['country'] == countryCode) && (instrumentMap[INSTRUMENTS[k]]['event'] == event)) {
+        if (!(instrumentMap[INSTRUMENTS[k]].indexOf(countryCode)===-1)) {
             playSound(countryCode, INSTRUMENTS[k], isBirth(event));
         }
+        /*if ((instrumentMap[INSTRUMENTS[k]]['country'] == countryCode) && (instrumentMap[INSTRUMENTS[k]]['event'] == event)) {
+            playSound(countryCode, INSTRUMENTS[k], isBirth(event));
+        }*/
     }
 }
 
@@ -350,14 +354,24 @@ function getSwitchId(instrument) {
 
 var countryMusic = new Array();
 
+function getInstrumentFromId(instrument) {
+    var split = instrument.split('-');
+    return split[0];    
+}
+
 for (var k = 0; k < INSTRUMENTS.length; ++k) {
-    $(INSTRUMENTS[k]).change(function() {
-        var instrument = this.id;
-        var countryCode = $(this).val();
-        instrumentMap['#' + instrument]['country'] = countryCode;
-        //console.log(countryCode+' selected '+instrument);     
-        //console.log(JSON.stringify(instrumentMap));
-    });
+    for(var r=0; r<7; ++r) {
+        $(INSTRUMENTS[k]+'-'+r).change(function() {
+            var instrument = getInstrumentFromId(this.id);
+            var countryCode = $(this).val();
+            //instrumentMap['#' + instrument]['country'] = countryCode;
+            if(instrumentMap['#' + instrument].indexOf(countryCode)===-1) {
+                instrumentMap['#'+instrument].push(countryCode);
+            }
+            //console.log(countryCode+' selected '+instrument);     
+            console.log(JSON.stringify(instrumentMap));
+        });
+    }
     /*$(INSTRUMENTS[k] + '-switch').change(function() {
         //console.log('Instrument switch =' + this.id);
         var instrumentSwitch = this.id;
@@ -413,7 +427,7 @@ function getNote(ifBirth, instrument) {
     }
 }
 
-function playSound(countryCode, instrument, ifBirth) {
+function playSound(countryCode, instrumentId, ifBirth) {
     //applyCircleAnimation(instrument, ifBirth);
 
     var event = 'death';
@@ -422,15 +436,15 @@ function playSound(countryCode, instrument, ifBirth) {
     }
     MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
-        instrument: instrumentNotes[instrument]['instrument'],
+        instrument: instrumentNotes[instrumentId]['instrument'],
         onprogress: function(state, progress) {
             //console.log(state, progress);
         },
         onsuccess: function() {
-            var delay = instrumentNotes[instrument][event]['delay']; // play one note every quarter second
-            var note = instrumentNotes[instrument][event]['note']; // the MIDI note
-            var velocity = instrumentNotes[instrument][event]['velocity']; // how hard the note hits
-            var code = instrumentNotes[instrument]['code'];
+            var delay = instrumentNotes[instrumentId][event]['delay']; // play one note every quarter second
+            var note = getNote(ifBirth, instrumentId); // the MIDI note
+            var velocity = instrumentNotes[instrumentId][event]['velocity']; // how hard the note hits
+            var code = instrumentNotes[instrumentId]['code'];
             // play the note
             MIDI.programChange(0, code);
             MIDI.setVolume(0, 127);
