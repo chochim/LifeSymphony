@@ -293,8 +293,10 @@ function addSelect(countries) {
     var sortedCountries  = getSortedArray(countries);
     for (var i = 0; i < INSTRUMENTS.length; ++i) {
         $.each(sortedCountries, function(code, country) {
-            if(!(country==undefined)) {                
-                $(INSTRUMENTS[i]).append('<option value=' + code + '>' + country +'&nbsp;<br />' + getBPMString(code)+'</option>')
+            for(var j=0; j<7; ++j) {
+                if(!(country==undefined)) {                
+                    $(INSTRUMENTS[i]+'-'+j).append('<option value=' + code + '>' + country +'&nbsp;<br />' + getBPMString(code)+'</option>')
+                }
             }
         });      
     }

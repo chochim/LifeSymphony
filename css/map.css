@@ -54,6 +54,7 @@
 .rel {
     position: relative;
     overflow: inherit;
+    display: none;
 }
 
 .death-circle {
@@ -72,6 +73,5 @@
     overflow: inherit;
     height: 50%;
     padding-bottom: 50%;
-    background: orange;
-    display: none;
+    background: orange;    
 }
