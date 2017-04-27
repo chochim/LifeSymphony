@@ -68,15 +68,15 @@ function instrumentNoteSetup() {
     instrumentNotes['#F']['instrument'] = 'synth_drum';
     instrumentNotes['#F']['code'] = 118;
 
-    //piano
+    //organ
     instrumentNotes['#G']['death']['note'] = 50;
     instrumentNotes['#G']['death']['velocity'] = 127;
     instrumentNotes['#G']['death']['delay'] = 0.75;
     instrumentNotes['#G']['birth']['note'] = 30;
     instrumentNotes['#G']['birth']['velocity'] = 127;
     instrumentNotes['#G']['birth']['delay'] = 0.75;
-    instrumentNotes['#G']['instrument'] = 'acoustic_grand_piano';
-    instrumentNotes['#G']['code'] = 0;
+    instrumentNotes['#G']['instrument'] = 'harmonica';
+    instrumentNotes['#G']['code'] = 22;
 
     //flute
     instrumentNotes['#A']['death']['note'] = 50;
