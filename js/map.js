@@ -102,6 +102,17 @@ function getBPMFromRate(rate) {
     return bpm+' BPM';
 }
 
+function getBPMString(countryCode) {
+    if(!(data[countryCode]==undefined)) {
+        var birthRate = data[countryCode]['birth'];
+        var deathRate = data[countryCode]['death'];
+        //console.log('(Birth: '+getBPMFromRate(birthRate)+', Death: '+getBPMFromRate(deathRate)+')');
+        return '(Birth: '+getBPMFromRate(birthRate)+', Death: '+getBPMFromRate(deathRate)+')';
+    } else {
+        return '';
+    }
+}
+
 function getBPM(countryCode, ifBackground) {
     var countryName = countries[countryCode];
     var birthRate = data[countryCode]['birth'];
@@ -242,10 +253,22 @@ function addSelect(countries) {
     var sortedCountries  = getSortedArray(countries);
     for (var i = 0; i < INSTRUMENTS.length; ++i) {
         $.each(sortedCountries, function(code, country) {
-            if(!(country==undefined)) {
-                $(INSTRUMENTS[i]).append('<option value=' + code + '>' + country + '</option>')
+            if(!(country==undefined)) {                
+                $(INSTRUMENTS[i]).append('<option value=' + code + '>' + country +'&nbsp;<br />' + getBPMString(code)+'</option>')
             }
         });      
+    }
+}
+
+function addHover() {
+    for(var i=0; i<INSTRUMENTS.length; ++i) {
+        $(INSTRUMENTS[i]).hover(
+  function() {
+    $( this ).append( $( "<span> ***</span>" ) );
+  }, function() {
+    $( this ).find( "span:last" ).remove();
+  }
+);
     }
 }
 
