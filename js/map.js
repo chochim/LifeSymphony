@@ -19,87 +19,28 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
 }
 
 var instrumentNotes = {};
-for (var k = 0; k < INSTRUMENTS.length; ++k) {
-    instrumentNotes[INSTRUMENTS[k]] = {};
-    instrumentNotes[INSTRUMENTS[k]]['death'] = {};
-    instrumentNotes[INSTRUMENTS[k]]['birth'] = {};
-    instrumentNotes[INSTRUMENTS[k]]['instrument'] = '';
-}
-
-
 function instrumentNoteSetup() {
-    //drum
-    instrumentNotes['#C']['death']['note'] = 50;
-    instrumentNotes['#C']['death']['velocity'] = 127;
-    instrumentNotes['#C']['death']['delay'] = 0.75;
-    instrumentNotes['#C']['birth']['note'] = 30;
-    instrumentNotes['#C']['birth']['velocity'] = 127;
-    instrumentNotes['#C']['birth']['delay'] = 0.75;
-    instrumentNotes['#C']['instrument'] = 'synth_drum';
-    instrumentNotes['#C']['code'] = 118;
-
-    //piano
-    instrumentNotes['#D']['death']['note'] = 50;
-    instrumentNotes['#D']['death']['velocity'] = 127;
-    instrumentNotes['#D']['death']['delay'] = 0.75;
-    instrumentNotes['#D']['birth']['note'] = 30;
-    instrumentNotes['#D']['birth']['velocity'] = 127;
-    instrumentNotes['#D']['birth']['delay'] = 0.75;
-    instrumentNotes['#D']['instrument'] = 'acoustic_grand_piano';
-    instrumentNotes['#D']['code'] = 0;
-
-    //flute
-    instrumentNotes['#E']['death']['note'] = 50;
-    instrumentNotes['#E']['death']['velocity'] = 127;
-    instrumentNotes['#E']['death']['delay'] = 0.75;
-    instrumentNotes['#E']['birth']['note'] = 30;
-    instrumentNotes['#E']['birth']['velocity'] = 127;
-    instrumentNotes['#E']['birth']['delay'] = 0.75;
-    instrumentNotes['#E']['instrument'] = 'flute';
-    instrumentNotes['#E']['code'] = 73;
-
-    //drum
-    instrumentNotes['#F']['death']['note'] = 50;
-    instrumentNotes['#F']['death']['velocity'] = 127;
-    instrumentNotes['#F']['death']['delay'] = 0.75;
-    instrumentNotes['#F']['birth']['note'] = 30;
-    instrumentNotes['#F']['birth']['velocity'] = 127;
-    instrumentNotes['#F']['birth']['delay'] = 0.75;
-    instrumentNotes['#F']['instrument'] = 'synth_drum';
-    instrumentNotes['#F']['code'] = 118;
-
-    //organ
-    instrumentNotes['#G']['death']['note'] = 50;
-    instrumentNotes['#G']['death']['velocity'] = 127;
-    instrumentNotes['#G']['death']['delay'] = 0.75;
-    instrumentNotes['#G']['birth']['note'] = 30;
-    instrumentNotes['#G']['birth']['velocity'] = 127;
-    instrumentNotes['#G']['birth']['delay'] = 0.75;
-    instrumentNotes['#G']['instrument'] = 'harmonica';
-    instrumentNotes['#G']['code'] = 22;
-
-    //flute
-    instrumentNotes['#A']['death']['note'] = 50;
-    instrumentNotes['#A']['death']['velocity'] = 127;
-    instrumentNotes['#A']['death']['delay'] = 0.75;
-    instrumentNotes['#A']['birth']['note'] = 30;
-    instrumentNotes['#A']['birth']['velocity'] = 127;
-    instrumentNotes['#A']['birth']['delay'] = 0.75;
-    instrumentNotes['#A']['instrument'] = 'flute';
-    instrumentNotes['#A']['code'] = 73;
-
-    instrumentNotes['#B']['death']['note'] = 50;
-    instrumentNotes['#B']['death']['velocity'] = 127;
-    instrumentNotes['#B']['death']['delay'] = 0.75;
-    instrumentNotes['#B']['birth']['note'] = 30;
-    instrumentNotes['#B']['birth']['velocity'] = 127;
-    instrumentNotes['#B']['birth']['delay'] = 0.75;
-    instrumentNotes['#B']['instrument'] = 'flute';
-    instrumentNotes['#B']['code'] = 73;
-
+    instrumentNotes['acoustic_grand_piano'] = {};
+    instrumentNotes['acoustic_grand_piano']['code'] = 0;
+    instrumentNotes['acoustic_grand_piano']['name'] = 'Acoustic Piano';
+    instrumentNotes['flute'] = {};
+    instrumentNotes['flute']['code'] = 73;
+    instrumentNotes['flute']['name'] = 'Flute';
+    instrumentNotes['sitar'] = {};
+    instrumentNotes['sitar']['code'] = 104;
+    instrumentNotes['sitar']['name'] = 'Sitar';
+    instrumentNotes['synth_drum'] = {};
+    instrumentNotes['synth_drum']['code'] = 118;
+    instrumentNotes['synth_drum']['name'] = 'Synth Drum';
+    instrumentNotes['violin'] = {};
+    instrumentNotes['violin']['code'] = 40;
+    instrumentNotes['violin']['name'] = 'Violin';
+    instrumentNotes['xylophone'] = {};
+    instrumentNotes['xylophone']['code'] = 13;
+    instrumentNotes['xylophone']['name'] = 'Xylophone';
 }
 
-//instrumentNoteSetup();
+instrumentNoteSetup();
 
 var totalDeaths = 0;
 var totalBirths = 0;
@@ -300,12 +241,26 @@ function addSelect(countries) {
         $.each(sortedCountries, function(code, country) {
             if(!(country==undefined)) {       
                 if(!getBPMString(code)==undefined || getBPMString(code)!='') {         
-                    $(INSTRUMENTS[i]+'-country').append('<option value=' + code + '>' + country +'&nbsp;<br />' + getBPMString(code)+'</option>')
+                    $(INSTRUMENTS[i]+'-country').append('<option value=' + code + '>' 
+                        + country +'&nbsp;<br />' + getBPMString(code)+'</option>');
                 }
             }            
         });      
     }
 }
+
+function addInstrumentOptions() {
+    for (var i=0; i< INSTRUMENTS.length; ++i) {                
+        $.each(instrumentNotes, function(instrumentCode, instrumentObj) {
+            console.log(INSTRUMENTS[i]+'-notes');
+            var instrumentName = instrumentObj['name'];
+            $(INSTRUMENTS[i]+'-instrument').append('<option value='+instrumentCode+'>'
+                +instrumentName+ '</option>');
+        });
+    }
+}
+
+addInstrumentOptions();
 
 $.each(data, function(countryCode, birthDeathObj) {
     //TODO: Check error here
