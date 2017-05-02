@@ -13,32 +13,89 @@
 
 <body>
     <header>
-        <!--<div class="navbar-fixed">
-            <nav>
-                <a href="#" class="brand-logo center inactive-link">Life Symphony</a>
-                <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li>
-                        <a id="basicUsage" class="inactive-link" href="#"></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>-->
     </header>
     <div class="container">
-        <!--<div class="col s12">
-            <ul class="tabs tabs-fixed-width">
-                <li class="tab col s3"><a class="active" href="#map">Map Mode</a></li>
-                <li class="tab col s3"><a href="#text-mode">Text Mode</a></li>
-            </ul>
-        </div>-->
         <div class="row ht"></div>
         <div class="row">
             <div id="map" class="col s12"></div>
-        </div>        
-        <!--<div id="text-mode" class="col s12">            
-            <ul class="collection live-status" id="live">
-            </ul>
-        </div>-->
+        </div>
+        <div class="row center">
+            <h4>Sound of Birth and Death</h4>
+        </div>
+        <div class="row">
+            <p class="flow-text pp">This is an interactive web interface where a user can visualize and <i>hear</i> the births and deaths occuring in various countries across the globe.</p>
+        </div>
+        <div class="row center">
+            <div class="col s5 grid-item offset-s1">
+                <div class="row">
+                    <div class="col s6 left cc">                        
+                        <div class="circleimg" id="C-circle"></div>                        
+                    </div>
+                    <div class="col s6 ppd">
+                        <div class="input-field col s12">
+                            <select id="C-0">
+                                <option value="default" disabled selected>Choose country</option>
+                            </select>
+                            <label>Select Country</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <select id="C-instrument">
+                                <option value="default" disabled selected>Choose Instrument</option>
+                            </select>
+                            <label>Select Instrument</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <select id="C-scale">
+                                <option value="default" disabled selected>Choose Music Scale</option>
+                            </select>
+                            <label>Select Music Scale</label>
+                        </div>
+                        <div class="switch">
+                            <label>
+                                Minor
+                                <input id="C-switch" type="checkbox"><span class="lever"></span> Major
+                            </label>
+                        </div>
+                        <label>Select Note</label>
+                    </div>
+                </div>
+            </div>
+            <!-- second column -->
+            <div class="col s5 grid-item offset-s1">
+                <div class="row">
+                    <div class="col s6 left cc">                        
+                        <div class="circleimg" id="C-circle"></div>                       
+                    </div>
+                    <div class="col s6 ppd">
+                        <div class="input-field col s12">
+                            <select id="C-0">
+                                <option value="default" disabled selected>Choose country</option>
+                            </select>
+                            <label>Select Country</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <select id="C-instrument">
+                                <option value="default" disabled selected>Choose Instrument</option>
+                            </select>
+                            <label>Select Instrument</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <select id="C-scale">
+                                <option value="default" disabled selected>Choose Music Scale</option>
+                            </select>
+                            <label>Select Music Scale</label>
+                        </div>
+                        <div class="switch">
+                            <label>
+                                Minor
+                                <input id="C-switch" type="checkbox"><span class="lever"></span> Major
+                            </label>                            
+                        </div>
+                        <label>Select Note</label>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row center">
             <div class="col s3 offset-s1 grid-item">
                 <h5>C</h5>
@@ -56,7 +113,7 @@
                         <label>Select Country</label>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="input-field col s12">
                         <select id="C-1">
                             <option value="default" disabled selected>Choose country</option>
@@ -103,9 +160,9 @@
                         </select>
                         <label>Select Country</label>
                     </div>
-                </div>
+                </div>-->
                 <div class="row rel">
-                    <div class="circle" id="C-circle"></div>
+                    <div class="circleimg" id="C-circle"></div>
                 </div>
             </div>
             <div class="col s3 offset-s1 grid-item">
@@ -124,7 +181,7 @@
                         <label>Select Country</label>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="input-field col s12">
                         <select id="D-1">
                             <option value="default" disabled selected>Choose country</option>
@@ -171,7 +228,7 @@
                         </select>
                         <label>Select Country</label>
                     </div>
-                </div>
+                </div>-->
                 <div class="row rel">
                     <div class="circle" id="D-circle"></div>
                 </div>
@@ -192,7 +249,7 @@
                         <label>Select Country</label>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="input-field col s12">
                         <select id="E-1">
                             <option value="default" disabled selected>Choose country</option>
@@ -239,8 +296,7 @@
                         </select>
                         <label>Select Country</label>
                     </div>
-                </div>
-                
+                </div>-->
                 <div class="row rel">
                     <div class="circle" id="E-circle"></div>
                 </div>
@@ -264,7 +320,7 @@
                         <label>Select Country</label>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="input-field col s12">
                         <select id="F-1">
                             <option value="default" disabled selected>Choose country</option>
@@ -311,7 +367,7 @@
                         </select>
                         <label>Select Country</label>
                     </div>
-                </div>
+                </div>-->
                 <div class="row rel">
                     <div class="circle" id="F-circle"></div>
                 </div>
@@ -332,7 +388,7 @@
                         <label>Select Country</label>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="input-field col s12">
                         <select id="G-1">
                             <option value="default" disabled selected>Choose country</option>
@@ -379,7 +435,7 @@
                         </select>
                         <label>Select Country</label>
                     </div>
-                </div>
+                </div>-->
                 <div class="row rel">
                     <div class="circle" id="G-circle"></div>
                 </div>
@@ -400,7 +456,7 @@
                         <label>Select Country</label>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="input-field col s12">
                         <select id="A-1">
                             <option value="default" disabled selected>Choose country</option>
@@ -447,7 +503,7 @@
                         </select>
                         <label>Select Country</label>
                     </div>
-                </div>
+                </div>-->
                 <div class="row rel">
                     <div class="circle" id="A-circle"></div>
                 </div>
@@ -471,7 +527,7 @@
                         <label>Select Country</label>
                     </div>
                 </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="input-field col s12">
                         <select id="B-1">
                             <option value="default" disabled selected>Choose country</option>
@@ -518,11 +574,11 @@
                         </select>
                         <label>Select Country</label>
                     </div>
-                </div>
+                </div>-->
                 <div class="row rel">
                     <div class="circle" id="B-circle"></div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="js/stats.js"></script>

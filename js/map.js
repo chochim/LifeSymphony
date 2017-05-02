@@ -141,7 +141,7 @@ function humanizeTime(time) {
 function getBPMFromRate(rate) {
     var secondRate = rate/1000;
     var bpm = 60/(secondRate);
-    return bpm+' BPM';
+    return bpm.toFixed(4)+' BPM';
 }
 
 function getBPMString(countryCode) {
@@ -298,7 +298,7 @@ function addSelect(countries) {
     var sortedCountries  = getSortedArray(countries);
     for (var i = 0; i < INSTRUMENTS.length; ++i) {
         $.each(sortedCountries, function(code, country) {
-            for(var j=0; j<7; ++j) {
+            for(var j=0; j<1; ++j) {
                 if(!(country==undefined)) {                
                     $(INSTRUMENTS[i]+'-'+j).append('<option value=' + code + '>' + country +'&nbsp;<br />' + getBPMString(code)+'</option>')
                 }
@@ -361,7 +361,7 @@ function getInstrumentFromId(instrument) {
 }
 
 for (var k = 0; k < INSTRUMENTS.length; ++k) {
-    for(var r=0; r<7; ++r) {
+    for(var r=0; r<1; ++r) {
         $(INSTRUMENTS[k]+'-'+r).change(function() {
             var instrument = getInstrumentFromId(this.id);
             var countryCode = $(this).val();
@@ -429,7 +429,7 @@ function getNote(ifBirth, instrument) {
 }
 
 function playSound(countryCode, instrumentId, ifBirth) {
-    //applyCircleAnimation(instrument, ifBirth);
+    applyCircleAnimation(instrument, ifBirth);
 
     var event = 'death';
     if (ifBirth) {

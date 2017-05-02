@@ -14,12 +14,18 @@
     bottom: 20px;
     right: 20px;
 }
+
 .ht {
     height: 20px;
 }
+
 .switch {
     padding-right: 15px;
-    display: none;
+ /*    display: none;*/
+}
+
+.pd {
+    padding: 5px;
 }
 
 .sw {
@@ -54,7 +60,16 @@
 .rel {
     position: relative;
     overflow: inherit;
-    display: none;
+    /*display: none;*/
+}
+
+.ppd {
+    margin-top: 20px;
+}
+
+.pp {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .death-circle {
@@ -65,7 +80,8 @@
     background-color: blue;
 }
 
-.circle {
+
+/*.circle {
     margin: 0 auto;
     text-align: center;
     border-radius: 50%;
@@ -74,4 +90,20 @@
     height: 50%;
     padding-bottom: 50%;
     background: orange;    
+}*/
+
+.cc {
+    top: -40%;
+    transform: translateY(40%);
+}
+
+.circleimg {
+    margin: 0 auto;
+    position: relative;
+    border-radius: 50%;
+    width: 100%;
+    height: auto;
+    padding-top: 100%;
+    background: orange;
+    
 }
