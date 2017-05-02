@@ -10,7 +10,7 @@ var DEATH_COLOR = 'red';
 var DEFAULT_COLOR = 'green';
 var TIME_INFO = 1500;
 
-var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#A', '#B');
+var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#H');
 var instrumentMap = {};
 for (var k = 0; k < INSTRUMENTS.length; ++k) {
     //instrumentMap[INSTRUMENTS[k]] = {};
@@ -99,7 +99,7 @@ function instrumentNoteSetup() {
 
 }
 
-instrumentNoteSetup();
+//instrumentNoteSetup();
 
 var totalDeaths = 0;
 var totalBirths = 0;
@@ -213,7 +213,7 @@ function updateRealTime(strng) {
 }
 
 function applyDeath(countryCode, deathRate) {
-    checkAndPlaySound(countryCode, 'death');
+    //checkAndPlaySound(countryCode, 'death');
     updateRealTime('Death in ' + countries[countryCode]);
     ++totalDeaths;
     updateDeathCount();
@@ -247,7 +247,7 @@ function checkAndPlaySound(countryCode, event) {
 }
 
 function applyBirth(countryCode, birthRate) {
-    checkAndPlaySound(countryCode, 'birth');
+    //checkAndPlaySound(countryCode, 'birth');
     updateRealTime('Birth in ' + countries[countryCode]);
     ++totalBirths;
     updateBirthCount();
@@ -298,11 +298,11 @@ function addSelect(countries) {
     var sortedCountries  = getSortedArray(countries);
     for (var i = 0; i < INSTRUMENTS.length; ++i) {
         $.each(sortedCountries, function(code, country) {
-            for(var j=0; j<1; ++j) {
-                if(!(country==undefined)) {                
-                    $(INSTRUMENTS[i]+'-'+j).append('<option value=' + code + '>' + country +'&nbsp;<br />' + getBPMString(code)+'</option>')
+            if(!(country==undefined)) {       
+                if(!getBPMString(code)==undefined || getBPMString(code)!='') {         
+                    $(INSTRUMENTS[i]+'-country').append('<option value=' + code + '>' + country +'&nbsp;<br />' + getBPMString(code)+'</option>')
                 }
-            }
+            }            
         });      
     }
 }
