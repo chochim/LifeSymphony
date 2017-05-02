@@ -139,7 +139,8 @@ function humanizeTime(time) {
 }
 
 function getBPMFromRate(rate) {
-    var bpm = 60*rate/1000.0;
+    var secondRate = rate/1000;
+    var bpm = 60/(secondRate);
     return bpm+' BPM';
 }
 
