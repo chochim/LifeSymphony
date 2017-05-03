@@ -252,7 +252,6 @@ function addSelect(countries) {
 function addInstrumentOptions() {
     for (var i=0; i< INSTRUMENTS.length; ++i) {                
         $.each(instrumentNotes, function(instrumentCode, instrumentObj) {
-            console.log(INSTRUMENTS[i]+'-notes');
             var instrumentName = instrumentObj['name'];
             $(INSTRUMENTS[i]+'-instrument').append('<option value='+instrumentCode+'>'
                 +instrumentName+ '</option>');
@@ -260,7 +259,19 @@ function addInstrumentOptions() {
     }
 }
 
+function addScaleOptions() {
+    var scales = new Array('A','B','C', 'D', 'E', 'F', 'G');
+    for (var i=0; i< INSTRUMENTS.length; ++i) {                
+        for(var k=0; k<scales.length; ++k) {
+            var scale = scales[k];
+            $(INSTRUMENTS[i]+'-scale').append('<option value='+scale+'>'
+                +scale+ '</option>');
+        }
+    }
+}
+
 addInstrumentOptions();
+addScaleOptions();
 
 $.each(data, function(countryCode, birthDeathObj) {
     //TODO: Check error here
