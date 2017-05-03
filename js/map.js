@@ -1,9 +1,3 @@
-var timer = new Timer();
-timer.start();
-timer.addEventListener('secondsUpdated', function(e) {
-    $('#basicUsage').html(timer.getTimeValues().toString());
-});
-
 var TIMEOUT = 700;
 var BIRTH_COLOR = 'blue';
 var DEATH_COLOR = 'red';
@@ -13,8 +7,6 @@ var TIME_INFO = 1500;
 var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#H');
 var instrumentMap = {};
 for (var k = 0; k < INSTRUMENTS.length; ++k) {
-    //instrumentMap[INSTRUMENTS[k]] = {};
-    //instrumentMap[INSTRUMENTS[k]]['event'] = 'death';
     instrumentMap[INSTRUMENTS[k]] = new Array();
 }
 
