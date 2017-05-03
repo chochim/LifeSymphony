@@ -160,7 +160,7 @@ function updateRealTime(strng) {
 }
 
 function applyDeath(countryCode, deathRate) {
-    //checkAndPlaySound(countryCode, 'death');
+    checkAndPlaySound(countryCode, 'death');
     updateRealTime('Death in ' + countries[countryCode]);
     ++totalDeaths;
     updateDeathCount();
@@ -184,17 +184,30 @@ function checkAndPlaySound(countryCode, event) {
     for (var k = 0; k < INSTRUMENTS.length; ++k) {
         //instrumentMap[instrument][country]
         //instrumentMap[instrument][event]
-        if (!(instrumentMap[INSTRUMENTS[k]].indexOf(countryCode)===-1)) {
+        /*if (!(instrumentMap[INSTRUMENTS[k]].indexOf(countryCode)===-1)) {
             playSound(countryCode, INSTRUMENTS[k], isBirth(event));
-        }
+        }*/
         /*if ((instrumentMap[INSTRUMENTS[k]]['country'] == countryCode) && (instrumentMap[INSTRUMENTS[k]]['event'] == event)) {
             playSound(countryCode, INSTRUMENTS[k], isBirth(event));
         }*/
+        if('country' in toneMap[INSTRUMENTS[k]]) {
+            var countryCode = toneMap[INSTRUMENTS[k]]['country'];
+            if('instrument' in toneMap[INSTRUMENTS[k]]) {
+                var instrument = toneMap[INSTRUMENTS[k]]['instrument'];
+                if('scale' in toneMap[INSTRUMENTS[k]]) {
+                    var scale = toneMap[INSTRUMENTS[k]]['scale'];
+                    var note = toneMap[INSTRUMENTS[k]]['note'];
+                    if(note==event) {
+                        playSound(countryCode, instrument, scale, isBirth(event));
+                    }
+                }
+            }
+        }
     }
 }
 
 function applyBirth(countryCode, birthRate) {
-    //checkAndPlaySound(countryCode, 'birth');
+    checkAndPlaySound(countryCode, 'birth');
     updateRealTime('Birth in ' + countries[countryCode]);
     ++totalBirths;
     updateBirthCount();
@@ -369,20 +382,6 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
         }      
         console.log(JSON.stringify(toneMap));
     });
-
-    /*$(INSTRUMENTS[k] + '-switch').change(function() {
-        //console.log('Instrument switch =' + this.id);
-        var instrumentSwitch = this.id;
-        var instrumentId = getIdFromSwitch(instrumentSwitch);
-        if ($('#' + instrumentSwitch).is(':checked')) {
-            //birth
-            instrumentMap['#' + instrumentId]['event'] = 'birth';
-        } else {
-            //death
-            instrumentMap['#' + instrumentId]['event'] = 'death';
-        }
-        //console.log(JSON.stringify(instrumentMap));
-    });*/
 }
 
 function applyCircleAnimation(instrument, ifBirth) {
@@ -425,8 +424,9 @@ function getNote(ifBirth, instrument) {
     }
 }
 
-function playSound(countryCode, instrumentId, ifBirth) {
-    applyCircleAnimation(instrument, ifBirth);
+function playSound(countryCode, instrument, scale, isBirth) {
+    console.log('Country='+countryCode+', instrument='+instrument+', scale='+scale+', event='+isBirth);
+    /*applyCircleAnimation(instrument, ifBirth);
 
     var event = 'death';
     if (ifBirth) {
@@ -434,7 +434,7 @@ function playSound(countryCode, instrumentId, ifBirth) {
     }
     MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
-        instrument: instrumentNotes[instrumentId]['instrument'],
+        instrument: instrument,
         onprogress: function(state, progress) {
             //console.log(state, progress);
         },
@@ -449,5 +449,6 @@ function playSound(countryCode, instrumentId, ifBirth) {
             MIDI.noteOn(0, note, velocity, 0);
             MIDI.noteOff(0, note, delay);
         }
-    });
+    });*/
 }
+
