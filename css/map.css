@@ -33,11 +33,11 @@
 }
 
 .grid-item {
-    padding: 5px;
-    border-color: #BDBDBD;
+    padding: 5px;    
+    /*border-color: #BDBDBD;
     border-radius: 4px;
     border-style: solid;
-    border-width: 1px;
+    border-width: 1px;*/
 }
 
 .bg {
@@ -70,6 +70,8 @@
 .pp {
     padding-left: 20px;
     padding-right: 20px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .death-circle {
