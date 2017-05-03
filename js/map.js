@@ -4,6 +4,10 @@ var DEATH_COLOR = 'maroon';
 var DEFAULT_COLOR = 'DarkGrey';
 var TIME_INFO = 1500;
 
+$(document).ready(function(){
+    $('.tooltipped').tooltip({delay: 50});
+});
+
 var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#H');
 var instrumentMap = {};
 for (var k = 0; k < INSTRUMENTS.length; ++k) {

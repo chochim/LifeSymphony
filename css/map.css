@@ -80,6 +80,13 @@
     background-color: blue;
 }
 
+.teal_apply {
+    color: teal;
+}
+
+.maroon_apply {
+    color: maroon;
+}
 
 /*.circle {
     margin: 0 auto;
