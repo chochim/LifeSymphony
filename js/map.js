@@ -80,7 +80,8 @@ function humanizeTime(time) {
 function getBPMFromRate(rate) {
     var secondRate = rate/1000;
     var bpm = 60/(secondRate);
-    return bpm.toFixed(4)+' BPM';
+    var prefix = d3.formatPrefix(bpm);
+    return  prefix.scale(bpm).toFixed()+ prefix.symbol + ' BPM';
 }
 
 function getBPMString(countryCode) {
