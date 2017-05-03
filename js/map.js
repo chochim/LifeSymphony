@@ -1,7 +1,7 @@
 var TIMEOUT = 700;
 var BIRTH_COLOR = 'blue';
 var DEATH_COLOR = 'red';
-var DEFAULT_COLOR = 'green';
+var DEFAULT_COLOR = 'DarkGrey';
 var TIME_INFO = 1500;
 
 var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#H');
