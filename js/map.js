@@ -1,6 +1,6 @@
 var TIMEOUT = 700;
-var BIRTH_COLOR = 'blue';
-var DEATH_COLOR = 'red';
+var BIRTH_COLOR = 'teal';
+var DEATH_COLOR = 'maroon';
 var DEFAULT_COLOR = 'DarkGrey';
 var TIME_INFO = 1500;
 
@@ -368,7 +368,7 @@ function applyCircleAnimation(instrument, event) {
                 });
             }
         });
-    } else {
+    } else {        
         $(instrument + '-circle').animate({
             backgroundColor: DEATH_COLOR
         }, {
