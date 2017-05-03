@@ -18,6 +18,12 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
     instrumentMap[INSTRUMENTS[k]] = new Array();
 }
 
+var toneMap = {};
+for (var k=0; k<INSTRUMENTS.length; ++k) {
+    toneMap[INSTRUMENTS[k]] = {};
+    toneMap[INSTRUMENTS[k]]['note'] = 'death';
+}
+
 var instrumentNotes = {};
 function instrumentNoteSetup() {
     instrumentNotes['acoustic_grand_piano'] = {};
@@ -326,19 +332,44 @@ function getInstrumentFromId(instrument) {
     return split[0];    
 }
 
-for (var k = 0; k < INSTRUMENTS.length; ++k) {
-    for(var r=0; r<1; ++r) {
-        $(INSTRUMENTS[k]+'-'+r).change(function() {
-            var instrument = getInstrumentFromId(this.id);
-            var countryCode = $(this).val();
-            //instrumentMap['#' + instrument]['country'] = countryCode;
-            if(instrumentMap['#' + instrument].indexOf(countryCode)===-1) {
-                instrumentMap['#'+instrument].push(countryCode);
-            }
-            //console.log(countryCode+' selected '+instrument);     
-            console.log(JSON.stringify(instrumentMap));
-        });
-    }
+for (var k = 0; k < INSTRUMENTS.length; ++k) {    
+    $(INSTRUMENTS[k]+'-country').change(function() {
+        var instrument = getInstrumentFromId(this.id);
+        console.log('Instrument = '+instrument);
+        var countryCode = $(this).val();
+        toneMap['#'+instrument]['country'] = countryCode;
+        console.log('Country: '+countryCode);        
+    });
+
+    $(INSTRUMENTS[k]+'-instrument').change(function() {
+        var instrument = getInstrumentFromId(this.id);
+        console.log('Instrument = '+instrument);
+        var instrumentCode = $(this).val();
+        toneMap['#'+instrument]['instrument'] = instrumentCode;
+        console.log('Instrument: '+instrumentCode);        
+    });
+
+    $(INSTRUMENTS[k]+'-scale').change(function() {
+        var instrument = getInstrumentFromId(this.id);
+        console.log('Instrument = '+instrument);
+        var scaleCode = $(this).val();
+        toneMap['#'+instrument]['scale'] = scaleCode;
+        console.log('Scale Code: '+scaleCode);        
+    });
+
+    $(INSTRUMENTS[k] + '-switch').change(function() {        
+        var instrumentSwitch = this.id;
+        var instrumentId = getIdFromSwitch(instrumentSwitch);
+        if ($('#' + instrumentSwitch).is(':checked')) {
+            //birth
+            toneMap['#' + instrumentId]['note'] = 'birth';
+        } else {
+            //death
+            toneMap['#' + instrumentId]['note'] = 'death';
+        }      
+        console.log(JSON.stringify(toneMap));
+    });
+
     /*$(INSTRUMENTS[k] + '-switch').change(function() {
         //console.log('Instrument switch =' + this.id);
         var instrumentSwitch = this.id;
