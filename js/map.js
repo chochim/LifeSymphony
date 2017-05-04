@@ -76,6 +76,8 @@ var map = new Datamap({
 
 var timeouts = [];
 var j = 0;
+var birthTimeOuts = [];
+var deathTimeOuts = [];
 
 function humanizeTime(time) {
     var timeObj = moment.duration(time, 'ms');
@@ -214,19 +216,6 @@ function applyBirth(countryCode, birthRate) {
     }, birthRate);
 }
 
-function displayMapMode() {
-    $('#text-mode').hide();
-    $('#map').show();
-}
-
-function displayTextMode() {
-    $('#map').hide();
-    $('#text-mode').show();
-}
-
-$(document).ready(function() {
-    $('ul.tabs').tabs();
-});
 
 function getSortedArray(data) {
     var countries = [];
@@ -282,18 +271,22 @@ function addScaleOptions() {
 
 addInstrumentOptions();
 addScaleOptions();
+var l=0;
+var r=0;
 
 $.each(data, function(countryCode, birthDeathObj) {
     //TODO: Check error here
     if (!(countryCode == 'FLK')) {
         var deathRate = birthDeathObj['death'];
         var birthRate = birthDeathObj['birth'];
-        setTimeout(function() {
+        birthTimeOuts[l] = setTimeout(function() {
             applyBirth(countryCode, birthRate);
         }, birthRate);
-        setTimeout(function() {
+        deathTimeOuts[r] = setTimeout(function() {
             applyDeath(countryCode, deathRate);
         }, deathRate);        
+        ++l;
+        ++r;
     }
 });
 
