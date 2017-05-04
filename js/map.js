@@ -50,8 +50,7 @@ var totalBirths = 0;
 
 var countries = {};
 var countryObjs = Datamap.prototype.worldTopo.objects.world.geometries;
-for (var i = 0; i < countryObjs.length; i++) {
-    //console.log('code='+countryObjs[i].id+', '+countryObjs[i].properties.name);
+for (var i = 0; i < countryObjs.length; i++) {    
     if (!(countryObjs[i].properties.name === undefined)) {
         countries[countryObjs[i].id] = countryObjs[i].properties.name;
     }
@@ -94,8 +93,7 @@ function getBPMFromRate(rate) {
 function getBPMString(countryCode) {
     if(!(data[countryCode]==undefined)) {
         var birthRate = data[countryCode]['birth'];
-        var deathRate = data[countryCode]['death'];
-        //console.log('(Birth: '+getBPMFromRate(birthRate)+', Death: '+getBPMFromRate(deathRate)+')');
+        var deathRate = data[countryCode]['death'];        
         return '(Birth: '+getBPMFromRate(birthRate)+', Death: '+getBPMFromRate(deathRate)+')';
     } else {
         return '';
@@ -161,7 +159,6 @@ function updateRealTime(strng) {
 
 function applyDeath(countryCode, deathRate) {
     checkAndPlaySound(countryCode, 'death');
-//    updateRealTime('Death in ' + countries[countryCode]);
     ++totalDeaths;
     updateDeathCount();
     var obj = {};
@@ -183,24 +180,24 @@ function isBirth(event) {
 function checkAndPlaySound(countryCode, event) {
     //get all the countries currently in the toneMap
     for (var k = 0; k < INSTRUMENTS.length; ++k) {
-        if('country' in toneMap[INSTRUMENTS[k]]) {
-            //var countryCode = toneMap[INSTRUMENTS[k]]['country'];
-            if(countryCode===toneMap[INSTRUMENTS[k]]['country']) {
-            if('instrument' in toneMap[INSTRUMENTS[k]]) {
-                var instrument = toneMap[INSTRUMENTS[k]]['instrument'];
-                if('scale' in toneMap[INSTRUMENTS[k]]) {
-                    var scale = toneMap[INSTRUMENTS[k]]['scale'];
-                    var note = toneMap[INSTRUMENTS[k]]['note'];
-                    var identifier = INSTRUMENTS[k];
-                    if(note==event) {
-                        playSound(countryCode, instrument, scale, event, identifier);
+        if ('country' in toneMap[INSTRUMENTS[k]]) {            
+            if (countryCode === toneMap[INSTRUMENTS[k]]['country']) {
+                if ('instrument' in toneMap[INSTRUMENTS[k]]) {
+                    var instrument = toneMap[INSTRUMENTS[k]]['instrument'];
+                    if ('scale' in toneMap[INSTRUMENTS[k]]) {
+                        var scale = toneMap[INSTRUMENTS[k]]['scale'];
+                        var note = toneMap[INSTRUMENTS[k]]['note'];
+                        var identifier = INSTRUMENTS[k];
+                        if (note == event) {
+                            playSound(countryCode, instrument, scale, event, identifier);
+                        }
                     }
                 }
             }
         }
-        }
     }
 }
+
 
 function applyBirth(countryCode, birthRate) {
     checkAndPlaySound(countryCode, 'birth');
@@ -343,9 +340,6 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
 }
 
 function applyCircleAnimation(instrument, event) {  
-    //console.log('instrument======'+instrument);
-    //console.log('event======'+event+", isBirth==="+isBirth(event));
-
     if (isBirth(event)) {
         $(instrument + '-circle').animate({
             backgroundColor: BIRTH_COLOR
@@ -383,25 +377,6 @@ function getNote(event, instrument) {
 function playSound(countryCode, instrument, scale, event, identifier) {
     applyCircleAnimation(identifier, event);
     playMusic(instrument, scale, event);
-/*
-    MIDI.loadPlugin({
-        soundfontUrl: "./soundfont/",
-        instrument: instrument,
-        onprogress: function(state, progress) {
-            //console.log(state, progress);
-        },
-        onsuccess: function() {
-            var delay = 0.75; // play one note every quarter second
-            var note = getNote(event, scale); // the MIDI note
-            var velocity = 127; // how hard the note hits
-            var code = instrumentNotes[instrument]['code'];
-            // play the note
-            MIDI.programChange(0, code);
-            MIDI.setVolume(0, 127);
-            MIDI.noteOn(0, note, velocity, 0);
-            MIDI.noteOff(0, note, delay);
-        }
-    });*/
 }
 
 MIDI.loadPlugin({
@@ -415,8 +390,7 @@ function playMusic(instrument, scale, event) {
         var delay = 0.75; // play one note every quarter second
         var note = getNote(event, scale); // the MIDI note
         var velocity = 127; // how hard the note hits
-        var code = instrumentNotes[instrument]['code'];
-        //MIDI.instrument = instrument;    
+        var code = instrumentNotes[instrument]['code'];        
         MIDI.loadResource({
             instrument: instrument,
             onsuccess: function() {
@@ -425,9 +399,7 @@ function playMusic(instrument, scale, event) {
         MIDI.noteOn(0, note, velocity, 0);
         MIDI.noteOff(0, note, delay);
             }
-        });
-        //console.log('Code='+code+', instrument='+instrument);
-        
+        });        
     }
 }
 
