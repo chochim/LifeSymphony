@@ -1,3 +1,4 @@
+'use strict';
 var TIMEOUT = 700;
 var BIRTH_COLOR = 'teal';
 var DEATH_COLOR = 'maroon';
@@ -158,7 +159,7 @@ function updateRealTime(strng) {
 
 function applyDeath(countryCode, deathRate) {
     checkAndPlaySound(countryCode, 'death');
-    updateRealTime('Death in ' + countries[countryCode]);
+//    updateRealTime('Death in ' + countries[countryCode]);
     ++totalDeaths;
     updateDeathCount();
     var obj = {};
@@ -198,7 +199,7 @@ function checkAndPlaySound(countryCode, event) {
 
 function applyBirth(countryCode, birthRate) {
     checkAndPlaySound(countryCode, 'birth');
-    updateRealTime('Birth in ' + countries[countryCode]);
+    //updateRealTime('Birth in ' + countries[countryCode]);
     ++totalBirths;
     updateBirthCount();
     var obj = {};
@@ -298,18 +299,18 @@ $.each(data, function(countryCode, birthDeathObj) {
 
 addSelect(countries);
 
-function setupList() {
+/*function setupList() {
     //TODO: Reset height
     var height = $('#map').innerHeight();
     var width = $('#map').innerWidth();
     $('.live-status').height(500);
     $('.live-status').width(width);
-}
+}*/
 $(document).ready(function() {
     $('select').material_select();
 });
 
-setupList();
+//setupList();
 
 function getIdFromSwitch(switchId) {
     var index = switchId.search('-switch');
