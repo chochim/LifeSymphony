@@ -299,29 +299,15 @@ $.each(data, function(countryCode, birthDeathObj) {
 
 addSelect(countries);
 
-/*function setupList() {
-    //TODO: Reset height
-    var height = $('#map').innerHeight();
-    var width = $('#map').innerWidth();
-    $('.live-status').height(500);
-    $('.live-status').width(width);
-}*/
 $(document).ready(function() {
     $('select').material_select();
 });
-
-//setupList();
 
 function getIdFromSwitch(switchId) {
     var index = switchId.search('-switch');
     return switchId.substr(0, index);
 }
 
-function getSwitchId(instrument) {
-    return '#' + instrument + '-switch';
-}
-
-var countryMusic = new Array();
 
 function getInstrumentFromId(instrument) {
     var split = instrument.split('-');
