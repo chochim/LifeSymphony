@@ -181,9 +181,11 @@ function isBirth(event) {
 }
 
 function checkAndPlaySound(countryCode, event) {
+    //get all the countries currently in the toneMap
     for (var k = 0; k < INSTRUMENTS.length; ++k) {
         if('country' in toneMap[INSTRUMENTS[k]]) {
-            var countryCode = toneMap[INSTRUMENTS[k]]['country'];
+            //var countryCode = toneMap[INSTRUMENTS[k]]['country'];
+            if(countryCode===toneMap[INSTRUMENTS[k]]['country']) {
             if('instrument' in toneMap[INSTRUMENTS[k]]) {
                 var instrument = toneMap[INSTRUMENTS[k]]['instrument'];
                 if('scale' in toneMap[INSTRUMENTS[k]]) {
@@ -195,6 +197,7 @@ function checkAndPlaySound(countryCode, event) {
                     }
                 }
             }
+        }
         }
     }
 }
@@ -339,7 +342,10 @@ for (var k = 0; k < INSTRUMENTS.length; ++k) {
     });
 }
 
-function applyCircleAnimation(instrument, event) {    
+function applyCircleAnimation(instrument, event) {  
+    //console.log('instrument======'+instrument);
+    //console.log('event======'+event+", isBirth==="+isBirth(event));
+
     if (isBirth(event)) {
         $(instrument + '-circle').animate({
             backgroundColor: BIRTH_COLOR
@@ -376,7 +382,8 @@ function getNote(event, instrument) {
 
 function playSound(countryCode, instrument, scale, event, identifier) {
     applyCircleAnimation(identifier, event);
-
+    playMusic(instrument, scale, event);
+/*
     MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
         instrument: instrument,
@@ -394,6 +401,33 @@ function playSound(countryCode, instrument, scale, event, identifier) {
             MIDI.noteOn(0, note, velocity, 0);
             MIDI.noteOff(0, note, delay);
         }
-    });
+    });*/
+}
+
+MIDI.loadPlugin({
+    soundfontUrl: "./soundfont/",
+        onsuccess: playMusic
+});
+
+
+function playMusic(instrument, scale, event) {
+    if(event) {
+        var delay = 0.75; // play one note every quarter second
+        var note = getNote(event, scale); // the MIDI note
+        var velocity = 127; // how hard the note hits
+        var code = instrumentNotes[instrument]['code'];
+        //MIDI.instrument = instrument;    
+        MIDI.loadResource({
+            instrument: instrument,
+            onsuccess: function() {
+                MIDI.programChange(0, code);
+        MIDI.setVolume(0, 127);
+        MIDI.noteOn(0, note, velocity, 0);
+        MIDI.noteOff(0, note, delay);
+            }
+        });
+        //console.log('Code='+code+', instrument='+instrument);
+        
+    }
 }
 
