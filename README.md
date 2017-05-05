@@ -1,2 +1,2 @@
-# HCIProject
-HCI Project
+# Life Symphony
+
