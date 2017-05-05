@@ -10,13 +10,16 @@ The website is hosted as Github page here: [https://chochim.github.io/LifeSympho
 
 ##Generation of real-time events
 
+
 The events like birth and death are generated using the [CIA World Factbook](https://www.cia.gov/library/publications/the-world-factbook/rankorder/2054rank.html). These statistics combined with the current population data provides the average frequency of the occurence of birth and death for a particular country. 
 
 ##Music generation
+
 
 Currently, the user has the option of choosing six instruments viz. flute, acoustic piano, xylophone, sitar, drums, and violin. In case you need to add more instruments, download the [pre-rendered midi soundfonts](https://github.com/gleitz/midi-js-soundfonts) and put it in the appropriate location.
 
 
 ##Code
+
 
 The main action takes place in the _map.js_ file.
