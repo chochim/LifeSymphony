@@ -1,7 +1,7 @@
 # Life Symphony
 
 
-![Life Symphony](images/lifesymphony.jpg)
+![Life Symphony](images/lifesymphony.jpeg)
 
 Life Symphony is a project that helps visualizing real-time birth and deaths happening around the world. In addition to visualization, the user can interact with these events by adding musical instruments, notes, etc. This enables the user to create _music_.The project makes use of [d3](https://d3js.org/), [midijs](http://www.midijs.net/), [pre-rendered midi soundfonts](https://github.com/gleitz/midi-js-soundfonts).
 
