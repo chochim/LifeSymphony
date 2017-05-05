@@ -5,9 +5,7 @@ var DEATH_COLOR = 'maroon';
 var DEFAULT_COLOR = 'DarkGrey';
 var TIME_INFO = 1500;
 
-$(document).ready(function(){
-    $('.tooltipped').tooltip({delay: 50});
-});
+
 
 var INSTRUMENTS = new Array('#C', '#D', '#E', '#F', '#G', '#H');
 var instrumentMap = {};
@@ -293,6 +291,7 @@ $.each(data, function(countryCode, birthDeathObj) {
 addSelect(countries);
 
 $(document).ready(function() {
+    $('.tooltipped').tooltip({delay: 50});    
     $('select').material_select();
 });
 
