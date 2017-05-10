@@ -12,9 +12,10 @@ function getJsonFromFile($fileName) {
 }
 
 function cleanTweet($tweetObj, $searchTerm) {  
-    $firstSearchTerm = explode(' ', $searchTerm);
+    /*$firstSearchTerm = explode(' ', $searchTerm);
     $tweet = $tweetObj['status'];    
-    $start = stripos($tweet, $firstSearchTerm[0]);//case insensitive
+    $start = stripos($tweet, $firstSearchTerm[0]);//case insensitive*/
+    $start = stripos($tweet, $searchTerm);
     return substr($tweet, $start);  
 }
 
