@@ -12,8 +12,8 @@ function getJsonFromFile($fileName) {
 }
 
 function cleanTweet($tweetObj, $searchTerm) {  
-    /*$firstSearchTerm = explode(' ', $searchTerm);
-    $tweet = $tweetObj['status'];    
+	$tweet = $tweetObj['status'];  
+    /*$firstSearchTerm = explode(' ', $searchTerm);      
     $start = stripos($tweet, $firstSearchTerm[0]);//case insensitive*/
     $start = stripos($tweet, $searchTerm);
     return substr($tweet, $start);  
